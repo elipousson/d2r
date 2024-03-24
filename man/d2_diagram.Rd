@@ -4,15 +4,38 @@
 \alias{d2_diagram}
 \title{Format a vectors of shapes and connectors as a D2 diagram}
 \usage{
-d2_diagram(
-  shapes,
-  connector = NULL,
-  class = NULL,
-  direction = NULL,
-  import = NULL,
-  ...
-)
+d2_diagram(shapes, connector = NULL, direction = NULL, import = NULL, ...)
+}
+\arguments{
+\item{shapes}{A list or character vector. Named elements are connected using
+the supplied \code{connector} value. Unnamed elements are kept as is and assumed
+to be valid D2 code.}
+
+\item{connector}{Default to \code{NULL} which uses \code{"->"} to connect the name of
+any shape to the value of any shape. Must be vector of:
+--, ->, <-, and <->. Vector is recycled to
+match length of named shapes.}
+
+\item{direction}{Optional direction for diagram. Must be one of:
+up, down, right, and left.}
+
+\item{import}{File name or names to append as an import to the top of the
+diagram. If named, the standard import method using the name of the import
+as the name of the imported element. If import is unnamed, the partial
+import method is used: https://d2lang.com/tour/imports#partial-imports See:
+\url{https://d2lang.com/tour/imports}}
+
+\item{...}{Unused at present.}
 }
 \description{
-Format a vectors of shapes and connectors as a D2 diagram
+\code{\link[=d2_diagram]{d2_diagram()}} is an initial experimental implementation of diagram building
+and may change or be deprecated in the future.
+}
+\examples{
+d2_diagram(c("x" = "y"))
+
+d2_diagram(c("a" = "b"), "<-", direction = "up")
+
+d2_diagram(c("start" = "end"), "<->", import = "imported.d2")
+
 }
