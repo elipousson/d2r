@@ -2,7 +2,7 @@
 % Please edit documentation in R/render.R
 \name{d2_render}
 \alias{d2_render}
-\title{Render a D2 file}
+\title{Render a D2 input file to an output file}
 \usage{
 d2_render(
   input,
@@ -20,8 +20,28 @@ d2_render(
 \arguments{
 \item{input}{Required input file with \code{"d2"} file extension.}
 
+\item{output}{Output filename.}
+
+\item{fileext}{One of: svg, pdf, png, gif, pptx. Ignored if \code{output} is supplied.}
+
+\item{layout}{Layout. One of: elk, dagre, taga}
+
+\item{theme}{Diagram theme name or code. Theme names are not case sensitive.
+Use \code{\link[=d2_themes]{d2_themes()}} to list available themes.}
+
+\item{sketch}{If \code{TRUE}, use a hand-drawn style for the rendered diagram.}
+
+\item{pad}{Diagram padding in pixels. Numeric value or string coercible to
+whole number.}
+
+\item{animate_interval}{Required if fileext is \code{"gif"} or \code{output} uses a
+\code{"gif"} file extension.}
+
 \item{...}{Additional input flags. Optional character vector.}
+
+\item{overwrite}{If \code{FALSE} and output exists, abort rendering. Defaults to
+\code{TRUE}.}
 }
 \description{
-Render a D2 file
+Render a D2 input file to an output file
 }

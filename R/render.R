@@ -28,9 +28,21 @@ match_d2_theme <- function(theme,
   theme
 }
 
-#' Render a D2 file
+#' Render a D2 input file to an output file
 #'
 #' @param input Required input file with `"d2"` file extension.
+#' @param output Output filename.
+#' @param fileext One of: `r keys_d2[["fileext"]]`. Ignored if `output` is supplied.
+#' @param theme Diagram theme name or code. Theme names are not case sensitive.
+#'   Use [d2_themes()] to list available themes.
+#' @param layout Layout. One of: `r keys_d2[["layout"]]`
+#' @param sketch If `TRUE`, use a hand-drawn style for the rendered diagram.
+#' @param pad Diagram padding in pixels. Numeric value or string coercible to
+#'   whole number.
+#' @param animate_interval Required if fileext is `"gif"` or `output` uses a
+#'   `"gif"` file extension.
+#' @param overwrite If `FALSE` and output exists, abort rendering. Defaults to
+#'   `TRUE`.
 #' @param ... Additional input flags. Optional character vector.
 #' @export
 d2_render <- function(
@@ -105,4 +117,6 @@ d2_render <- function(
   )
 
   out <- exec_d2(args = c(args, ...))
+
+  return(invisible(output))
 }
