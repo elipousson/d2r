@@ -6,6 +6,14 @@
 \usage{
 d2_install(dry_run = TRUE)
 }
+\arguments{
+\item{dry_run}{If \code{TRUE} (default), append \code{"--dry-run"} to the arguments
+passed to the \code{sh} command.}
+}
 \description{
-This does not work
+\code{\link[=d2_install]{d2_install()}} downloads and executes a \code{sh} script provided for installing
+D2 in \href{https://d2lang.com/tour/install}{the Getting Started documentation}.
+This is not the most secure way to install D2. You should consider using
+Homebrew, a pre-built Windows installer, or another installation option
+listed in \href{https://github.com/terrastruct/d2/blob/master/docs/INSTALL.md}{the detailed installation instructions}.
 }
