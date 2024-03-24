@@ -1,0 +1,26 @@
+Type: Package
+Package: d2r
+Title: Create Diagrams with D2
+Version: 0.1.0
+Authors@R: 
+    person("Eli", "Pousson", , "eli.pousson@gmail.com", role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0001-8280-1706"))
+Description: Build, read, write, and render diagrams using the D2 syntax.
+URL: https://github.com/elipousson/d2r
+BugReports: https://github.com/elipousson/d2r/issues
+Depends: 
+    R (>= 2.10)
+Imports: 
+    cli,
+    glue,
+    rlang (>= 1.1.0),
+    sys,
+    vctrs
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+License: MIT + file LICENSE
+Suggests: 
+    magick,
+    withr
