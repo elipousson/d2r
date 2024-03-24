@@ -17,6 +17,8 @@ themes_d2 <- set_names(
   themes_d2
 )
 
+usethis::use_data(themes_d2, overwrite = TRUE)
+
 keys_d2 <- list(
 
   # https://d2lang.com/tour/layouts#layout-engines
@@ -56,7 +58,6 @@ keys_d2 <- list(
   # https://d2lang.com/tour/grid-diagrams
   "grid" = c("grid-rows",
              "grid-columns")
-
 )
 
-usethis::use_data(themes_d2, keys_d2, internal = TRUE, overwrite = TRUE)
+usethis::use_data(keys_d2, overwrite = TRUE)
