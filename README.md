@@ -51,6 +51,7 @@ fig_path <- \(x) {
 }
 
 options("d2r.pad" = 10)
+options("d2r.direction" = "right")
 ```
 
 If d2 is installed and available on your PATH, you can check the
@@ -85,7 +86,7 @@ simple_diagram <- d2_diagram(
 )
 
 simple_diagram
-#> [1] "R -> D2"
+#> [1] "direction: right" ""                 "R -> D2"
 
 d2_include(
   simple_diagram,
@@ -104,8 +105,7 @@ connected_diagram <- d2_diagram(
   c("R" = "D2", "D2" = "R"),
   "R.shape: oval",
   "D2.shape: square",
-  connector = "->",
-  direction = "right"
+  connector = "->"
 )
 
 connected_diagram

@@ -50,6 +50,7 @@ fig_path <- \(x) {
 }
 
 options("d2r.pad" = 10)
+options("d2r.direction" = "right")
 ```
 
 If d2 is installed and available on your PATH, you can check the version:
@@ -90,8 +91,7 @@ connected_diagram <- d2_diagram(
   c("R" = "D2", "D2" = "R"),
   "R.shape: oval",
   "D2.shape: square",
-  connector = "->",
-  direction = "right"
+  connector = "->"
 )
 
 connected_diagram
@@ -104,7 +104,7 @@ d2_include(
 
 The entity-relationship diagrams and table schema can be represented using the SQL table style diagrams with `d2_sql_table()`:
 
-```{r}
+```{r, width='50%'}
 mtcars_tbl <- d2_sql_table(mtcars[, 1:4], .id = "mtcars")
 
 mtcars_tbl
