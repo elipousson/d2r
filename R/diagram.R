@@ -19,6 +19,7 @@
 #'   import method is used: https://d2lang.com/tour/imports#partial-imports See:
 #'   <https://d2lang.com/tour/imports>
 #' @param .id Identifier for map container for diagram.
+#' @inheritParams base::paste0
 #' @examples
 #' d2_diagram(c("x" = "y"))
 #'
