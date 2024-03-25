@@ -33,7 +33,7 @@ d2_diagram <- function(
     ...,
     connector = NULL,
     .id = NULL,
-    direction = NULL,
+    direction = getOption("d2r.direction"),
     import = NULL,
     collapse = NULL) {
   if (!is.null(lines)) {
