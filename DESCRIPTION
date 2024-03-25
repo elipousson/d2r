@@ -12,9 +12,12 @@ Depends:
     R (>= 2.10)
 Imports: 
     cli,
+    fs,
     glue,
+    knitr,
     rlang (>= 1.1.0),
     sys,
+    systemfonts,
     vctrs
 Encoding: UTF-8
 LazyData: true
@@ -22,5 +25,4 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 License: MIT + file LICENSE
 Suggests: 
-    magick,
     withr

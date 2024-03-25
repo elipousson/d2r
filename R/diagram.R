@@ -105,6 +105,7 @@ d2_key_val <- function(val = NULL, key = NULL, indent = "    ", sep = ":") {
 
 #' Assign an import value for a diagram
 #' @noRd
+#' @importFrom fs is_absolute_path
 assign_diagram_import <- function(
     diagram,
     import = NULL,
