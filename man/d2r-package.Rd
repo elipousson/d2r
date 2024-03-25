@@ -12,6 +12,7 @@ Build, read, write, and render diagrams using the D2 syntax.
 Useful links:
 \itemize{
   \item \url{https://github.com/elipousson/d2r}
+  \item \url{https://elipousson.github.io/d2r/}
   \item Report bugs at \url{https://github.com/elipousson/d2r/issues}
 }
 

@@ -6,7 +6,7 @@ Authors@R:
     person("Eli", "Pousson", , "eli.pousson@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-8280-1706"))
 Description: Build, read, write, and render diagrams using the D2 syntax.
-URL: https://github.com/elipousson/d2r
+URL: https://github.com/elipousson/d2r, https://elipousson.github.io/d2r/
 BugReports: https://github.com/elipousson/d2r/issues
 Depends: 
     R (>= 2.10)
