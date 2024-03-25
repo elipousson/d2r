@@ -2,19 +2,31 @@
 % Please edit documentation in R/diagram.R
 \name{d2_diagram}
 \alias{d2_diagram}
-\title{Format a vectors of shapes and connectors as a D2 diagram}
+\title{Create a D2 diagram from a named vector and connectors}
 \usage{
-d2_diagram(shapes, connector = NULL, direction = NULL, import = NULL, ...)
+d2_diagram(
+  lines = NULL,
+  ...,
+  connector = NULL,
+  .id = NULL,
+  direction = NULL,
+  import = NULL,
+  collapse = NULL
+)
 }
 \arguments{
-\item{shapes}{A list or character vector. Named elements are connected using
+\item{lines}{A list or character vector. Named elements are connected using
 the supplied \code{connector} value. Unnamed elements are kept as is and assumed
 to be valid D2 code.}
+
+\item{...}{Additional elements for diagram included after initial lines.}
 
 \item{connector}{Default to \code{NULL} which uses \code{"->"} to connect the name of
 any shape to the value of any shape. Must be vector of:
 --, ->, <-, and <->. Vector is recycled to
 match length of named shapes.}
+
+\item{.id}{Identifier for map container for diagram.}
 
 \item{direction}{Optional direction for diagram. Must be one of:
 up, down, right, and left.}
@@ -24,8 +36,6 @@ diagram. If named, the standard import method using the name of the import
 as the name of the imported element. If import is unnamed, the partial
 import method is used: https://d2lang.com/tour/imports#partial-imports See:
 \url{https://d2lang.com/tour/imports}}
-
-\item{...}{Unused at present.}
 }
 \description{
 \code{\link[=d2_diagram]{d2_diagram()}} is an initial experimental implementation of diagram building

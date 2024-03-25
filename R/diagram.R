@@ -1,11 +1,12 @@
-#' Format a vectors of shapes and connectors as a D2 diagram
+#' Create a D2 diagram from a named vector and connectors
 #'
 #' [d2_diagram()] is an initial experimental implementation of diagram building
 #' and may change or be deprecated in the future.
 #'
-#' @param shapes A list or character vector. Named elements are connected using
+#' @param lines A list or character vector. Named elements are connected using
 #'   the supplied `connector` value. Unnamed elements are kept as is and assumed
 #'   to be valid D2 code.
+#' @param ... Additional elements for diagram included after initial lines.
 #' @param connector Default to `NULL` which uses `"->"` to connect the name of
 #'   any shape to the value of any shape. Must be vector of:
 #'   `r knitr::combine_words( keys_d2[["connector"]])`. Vector is recycled to
@@ -17,7 +18,7 @@
 #'   as the name of the imported element. If import is unnamed, the partial
 #'   import method is used: https://d2lang.com/tour/imports#partial-imports See:
 #'   <https://d2lang.com/tour/imports>
-#' @param ... Unused at present.
+#' @param .id Identifier for map container for diagram.
 #' @examples
 #' d2_diagram(c("x" = "y"))
 #'
@@ -27,21 +28,78 @@
 #'
 #' @export
 d2_diagram <- function(
-    shapes,
+    lines = NULL,
+    ...,
     connector = NULL,
+    .id = NULL,
     direction = NULL,
     import = NULL,
-    ...) {
+    collapse = NULL) {
+  if (!is.null(lines)) {
+    diagram <- build_d2_diagram(lines, connector)
+  }
 
-  diagram <- build_d2_diagram(shapes, connector)
+  if (!is.null(.id)) {
+    diagram <- d2_map(.id = .id, diagram)
+  }
 
+  diagram <- c(diagram, ...)
   # diagram <- assign_shape_attributes(diagram, shapes)
 
   diagram <- assign_diagram_direction(diagram, direction)
 
   diagram <- assign_diagram_import(diagram, import)
 
-  diagram
+  paste0(diagram, collapse = collapse)
+}
+
+#' Create a D2 map
+#'
+#' A map is a group within the diagram. This is required for [d2_sql_table()]
+#' but can to set properties such as the class, label, or shape for a grouped
+#' set of diagram elements.
+#'
+#' @param ... Text lines for diagram.
+#' @param .id D2 diagram map identifier.
+#' @param .class Diagram map class
+#' @param .label Diagram map label
+#' @param .shape Diagram map shape
+#' @examples
+#' d2_map(
+#'   "principal -> teachers",
+#'   "teachers -> students",
+#'   .id = "school",
+#'   .shape = "circle"
+#' )
+#'
+#' @export
+d2_map <- function(...,
+                   .id = NULL,
+                   .class = NULL,
+                   .label = NULL,
+                   .shape = NULL) {
+  paste0(
+    c(
+      paste0(
+        d2_key_val(val = "", key = .id, indent = ""), "{"
+      ),
+      d2_key_val(.class, "class"),
+      d2_key_val(.label, "label"),
+      d2_key_val(.shape, "shape"),
+      ...,
+      "}"
+    ),
+    collapse = "\n"
+  )
+}
+
+#' @noRd
+d2_key_val <- function(val = NULL, key = NULL, indent = "    ", sep = ":") {
+  if (is.null(val)) {
+    return(val)
+  }
+
+  paste0(indent, key, sep, " ", val)
 }
 
 #' Assign an import value for a diagram
@@ -54,7 +112,16 @@ assign_diagram_import <- function(
     return(diagram)
   }
 
-  check_d2_file(import, call = call, require_d2 = FALSE)
+  check_d2_file(import, require_d2 = FALSE, call = call)
+
+  import_is_absolute_path <- vapply(import, fs::is_absolute_path, logical(1))
+
+  if (any(import_is_absolute_path)) {
+    cli_abort(
+      "{.arg import} can't include absolute paths.",
+      call = call
+    )
+  }
 
   import_have_name <- have_name(import)
 
@@ -85,25 +152,24 @@ assign_diagram_import <- function(
 #' @noRd
 assign_diagram_direction <- function(
     diagram,
-    direction = NULL
-) {
+    direction = NULL) {
   if (is.null(direction)) {
     return(diagram)
   }
-    direction <- arg_match(direction, keys_d2[["direction"]])
+  direction <- arg_match(direction, keys_d2[["direction"]])
 
-    c(
-      paste0("direction: ", direction),
-      "",
-      diagram
-    )
+  c(
+    paste0("direction: ", direction),
+    "",
+    diagram
+  )
 }
 
 #' Connect shapes with connectors
 #' @noRd
 build_d2_diagram <- function(shapes,
-                           connector = NULL,
-                           call = caller_env()) {
+                             connector = NULL,
+                             call = caller_env()) {
   connector <- connector %||% "->"
 
   obj_check_vector(shapes, call = call)
@@ -126,7 +192,8 @@ build_d2_diagram <- function(shapes,
   connector <- match_d2_connector(
     connector,
     size = length(shapes_named),
-    error_call = call)
+    error_call = call
+  )
 
   diagram <- vec_assign(
     shapes,
@@ -191,7 +258,6 @@ assign_connector_labels <- function(diagram,
 #' @noRd
 assign_d2_attributes <- function(diagram,
                                  obj) {
-
   obj_attr <- d2_shape_attributes(obj)
   missing_i <- vec_detect_missing(obj_attr)
 
