@@ -7,7 +7,7 @@
 }
 
 #' @noRd
-std_alert_info <- function(x, before = "", after = "", bullets  = "i") {
+std_alert_info <- function(x, before = "", after = "", bullets = "i") {
   message <- set_names(
     paste0(before, as_text(x), after),
     bullets
