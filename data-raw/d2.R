@@ -43,10 +43,12 @@ keys_d2 <- list(
   "direction" = c("up", "down", "right", "left"),
 
   # https://d2lang.com/tour/style
-  "style" = c("opacity", "stroke", "fill", "fill-pattern", "stroke-width",
-              "stroke-dash", "border-radius", "shadow", "3D", "multiple",
-              "double-border", "font", "font-size", "font-color", "animated",
-              "bold", "italic", "underline", "text-transform", "root"),
+  "style" = c(
+    "opacity", "stroke", "fill", "fill-pattern", "stroke-width",
+    "stroke-dash", "border-radius", "shadow", "3D", "multiple",
+    "double-border", "font", "font-size", "font-color", "animated",
+    "bold", "italic", "underline", "text-transform", "root"
+  ),
 
   # https://d2lang.com/tour/uml-classes#visibilities
   # https://www.uml-diagrams.org/visibility.html
@@ -55,9 +57,18 @@ keys_d2 <- list(
     c("public", "public", "private", "protected")
   ),
 
+  # https://d2lang.com/tour/sql-tables
+  "constraints" = c(
+    "primary_key", "PK",
+    "foreign_key", "FK",
+    "unique", "UNQ"
+  ),
+
   # https://d2lang.com/tour/grid-diagrams
-  "grid" = c("grid-rows",
-             "grid-columns")
+  "grid" = c(
+    "grid-rows",
+    "grid-columns"
+  )
 )
 
 usethis::use_data(keys_d2, overwrite = TRUE)
