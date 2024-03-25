@@ -11,6 +11,6 @@
 #' An incomplete list of standard D2 syntax keywords for reference and internal
 #' validation. Named elements include: `r knitr::combine_words(names(keys_d2))`.
 #'
-#' @format A length 9 named list.
+#' @format A length 10 named list.
 #' @source <https://d2lang.com/>
 "keys_d2"
