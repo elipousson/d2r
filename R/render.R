@@ -41,6 +41,12 @@ match_d2_theme <- function(theme,
 #'   whole number.
 #' @param animate_interval Required if fileext is `"gif"` or `output` uses a
 #'   `"gif"` file extension.
+#' @param font_family String with font family name. Passed to
+#'   [systemfonts::match_font()] to set the regular, bold, and italic fonts.
+#'   Fonts must be a TTF file. D2 has a flag for setting semi-bold fonts but
+#'   this is not supported at this time. `font_family` can also be provided as a
+#'   named vector of font family names with elements named regular, italic, and
+#'   bold to use different font family names for the different styles of fonts.
 #' @param overwrite If `FALSE` and output exists, abort rendering. Defaults to
 #'   `TRUE`.
 #' @param ... Additional input flags. Optional character vector.
@@ -49,16 +55,17 @@ d2_render <- function(
     input,
     output = NULL,
     fileext = "svg",
-    layout = "elk",
-    theme = NULL,
-    sketch = NULL,
-    pad = NULL,
+    layout = getOption("d2r.layout", "elk"),
+    theme = getOption("d2r.theme"),
+    sketch = getOption("d2r.sketch"),
+    pad = getOption("d2r.pad"),
     animate_interval = NULL,
+    font_family = NULL,
     ...,
     overwrite = TRUE) {
-  check_d2_file(input)
-
-  fileext <- arg_match(fileext, keys_d2[["fileext"]])
+  if (is.character(input) && !all(is_d2_file(input))) {
+    input <- d2_write(input)
+  }
 
   if (!is.null(layout)) {
     layout <- arg_match(layout, keys_d2[["layout"]])
@@ -67,6 +74,16 @@ d2_render <- function(
   if (!is.null(theme)) {
     theme <- match_d2_theme(theme)
   }
+
+  check_logical(sketch, allow_null = TRUE)
+
+  check_number_whole(pad, allow_null = TRUE)
+
+  check_number_whole(animate_interval, allow_null = TRUE)
+
+  check_string(input, allow_null = TRUE)
+
+  fileext <- arg_match(fileext, keys_d2[["fileext"]])
 
   output <- output %||%
     sub("\\.d2", paste0(".", fileext), basename(input))
@@ -87,17 +104,54 @@ d2_render <- function(
     output = output
   )
 
-  params <- vctrs::list_drop_empty(params)
-
   templates <- list(
     theme = "--theme={theme}",
     layout = "--layout={layout}",
     sketch = "--sketch={tolower(sketch)}",
-    pad = "--pad={as.numeric(pad)}",
-    pad = "--animate-interval={as.numeric(animate_interval)}",
+    pad = "--pad={pad}",
+    animate_interval = "--animate-interval={animate_interval}",
     input = "{input}",
     output = "{output}"
   )
+
+  if (!is.null(font_family)) {
+    templates <- c(
+      templates,
+      list(
+        font = "--font-regular={font}",
+        italic = "--font-italic={italic}",
+        bold = "--font-bold={bold}"
+      )
+    )
+
+    font_family_italic <- font_family
+    font_family_bold <- font_family
+
+    if (is_named(font_family) && has_length(font_family, 3)) {
+      font_family_italic <- font_family[["italic"]] %||% font_family[["regular"]]
+      font_family_bold <- font_family[["bold"]] %||% font_family[["regular"]]
+      font_family <- font_family[["regular"]]
+    }
+
+    font_params <- list(
+      font = match_font(font_family)[["path"]],
+      italic = match_font(font_family_italic, italic = TRUE)[["path"]],
+      bold = match_font(font_family_bold, bold = TRUE)[["path"]]
+    )
+
+    if (!all(grepl("\\.ttf$", font_params))) {
+      cli_abort(
+        "{.arg font_family} must be an installed TTF font."
+      )
+    }
+
+    params <- c(
+      params,
+      font_params
+    )
+  }
+
+  params <- list_drop_empty(params)
 
   glue_envir <- new_environment(
     params,
@@ -118,5 +172,29 @@ d2_render <- function(
 
   out <- exec_d2(args = c(args, ...))
 
-  return(invisible(output))
+  invisible(output)
+}
+
+#' [d2_include()] combines [d2_render()] with [knitr::include_graphics()].
+#'
+#' @rdname d2_render
+#' @inheritParams knitr::include_graphics
+#' @export
+d2_include <- function(
+    input,
+    output = NULL,
+    ...,
+    auto_pdf = getOption("knitr.graphics.auto_pdf", FALSE),
+    dpi = NULL,
+    rel_path = getOption("knitr.graphics.rel_path", TRUE),
+    error = getOption("knitr.graphics.error", TRUE)) {
+  output <- d2_render(input = input, output = output, ...)
+
+  knitr::include_graphics(
+    output,
+    auto_pdf = auto_pdf,
+    dpi = dpi,
+    rel_path = rel_path,
+    error = error
+  )
 }
