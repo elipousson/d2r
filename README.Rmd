@@ -41,9 +41,15 @@ You can install the development version of d2r like so:
 
 ## Example
 
-```{r example}
+```{r setup}
 library(d2r)
-## basic example code
+
+# Helper function for file paths
+fig_path <- \(x) {
+  paste0(knitr::opts_chunk$get("fig.path"), x)
+}
+
+options("d2r.pad" = 10)
 ```
 
 If d2 is installed and available on your PATH, you can check the version:
@@ -60,36 +66,71 @@ Use `d2_which()` to locate the path for the installed version of D2:
 d2_which()
 ```
 
-This [2018 blog post by Tony Tsai](https://blog.tonytsai.name/blog/2018-05-07-setting-path-variable-for-gs-command-in-rstudio/) on trouble-shooting `PATH` variable issues for `brew`-installed commands.
+See this [2018 blog post by Tony Tsai](https://blog.tonytsai.name/blog/2018-05-07-setting-path-variable-for-gs-command-in-rstudio/) on trouble-shooting `PATH` variable issues for `brew`-installed commands.
 
-Here is an example of basic diagram creation:
+Here is an example of a basic diagram created with `d2_diagram()`:
 
-```{r shapes}
-d2_diagram(c("a" = "b"))
-```
+```{r basic}
+simple_diagram <- d2_diagram(
+  c("R" = "D2")
+)
 
-Example of diagram with specified connectors:
+simple_diagram
 
-```{r connectors}
-d2_diagram(
-  c("x" = "y", "y" = "z"),
-  connector = c("->", "<-")
+d2_include(
+  simple_diagram,
+  fig_path("simple_diagram.png")
 )
 ```
 
-Example of rendered diagram:
+You can also pass unnamed lines of text with D2 syntax, specify connectors (used with the named elements), and set the overall direction for the diagram:
+
+```{r connectors}
+connected_diagram <- d2_diagram(
+  c("R" = "D2", "D2" = "R"),
+  "R.shape: oval",
+  "D2.shape: square",
+  connector = "->",
+  direction = "right"
+)
+
+connected_diagram
+
+d2_include(
+  connected_diagram,
+  fig_path("connected_diagram.png")
+)
+```
+
+The entity-relationship diagrams and table schema can be represented using the SQL table style diagrams with `d2_sql_table()`:
 
 ```{r}
-diagram <- d2_diagram(c("a" = "b", "x" = "y"))  
+mtcars_tbl <- d2_sql_table(mtcars[, 1:4], .id = "mtcars")
 
-file <- tempfile(fileext = ".d2")
+mtcars_tbl
 
-output <- paste0(knitr::opts_chunk$get("fig.path"), "example.png")
+d2_include(mtcars_tbl, output = fig_path("mtcars.png"), pad = 10)
+```
 
-d2_write(diagram, file)
+You can use `d2_render()` to convert a D2 file into a PNG, SVG, PDF, or GIF file. `d2_include()` is a wrapper for `knitr::include_graphics()` that helps to include a diagram in a Quarto or R Markdown document:
 
-d2_render(file, output, theme = "everglade green")
+```{r}
+diagram <- d2_diagram(
+  c("Beginning" = "Middle",
+    "Middle" = "End",
+    "End" = "Beginning"),
+  "Beginning.shape: circle",
+  "End.shape: square",
+  direction = "right"
+)
 
-knitr::include_graphics(output)
+diagram
+
+d2_include(
+  diagram,
+  output = fig_path("include-example.png"),
+  sketch = TRUE,
+  theme = "Terminal"
+)
 ```
 

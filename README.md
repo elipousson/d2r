@@ -44,7 +44,13 @@ You can install the development version of d2r like so:
 
 ``` r
 library(d2r)
-## basic example code
+
+# Helper function for file paths
+fig_path <- \(x) {
+  paste0(knitr::opts_chunk$get("fig.path"), x)
+}
+
+options("d2r.pad" = 10)
 ```
 
 If d2 is installed and available on your PATH, you can check the
@@ -66,44 +72,94 @@ d2_which()
 #> [1] "/opt/homebrew/bin/d2"
 ```
 
-This [2018 blog post by Tony
+See this [2018 blog post by Tony
 Tsai](https://blog.tonytsai.name/blog/2018-05-07-setting-path-variable-for-gs-command-in-rstudio/)
 on trouble-shooting `PATH` variable issues for `brew`-installed
 commands.
 
-Here is an example of basic diagram creation:
+Here is an example of a basic diagram created with `d2_diagram()`:
 
 ``` r
-d2_diagram(c("a" = "b"))
-#>        a 
-#> "a -> b"
-```
-
-Example of diagram with specified connectors:
-
-``` r
-d2_diagram(
-  c("x" = "y", "y" = "z"),
-  connector = c("->", "<-")
+simple_diagram <- d2_diagram(
+  c("R" = "D2")
 )
-#>        x        y 
-#> "x -> y" "y <- z"
+
+simple_diagram
+#> [1] "R -> D2"
+
+d2_include(
+  simple_diagram,
+  fig_path("simple_diagram.png")
+)
 ```
 
-Example of rendered diagram:
+<img src="man/figures/README-simple_diagram.png" width="100%" />
+
+You can also pass unnamed lines of text with D2 syntax, specify
+connectors (used with the named elements), and set the overall direction
+for the diagram:
 
 ``` r
-diagram <- d2_diagram(c("a" = "b", "x" = "y"))  
+connected_diagram <- d2_diagram(
+  c("R" = "D2", "D2" = "R"),
+  "R.shape: oval",
+  "D2.shape: square",
+  connector = "->",
+  direction = "right"
+)
 
-file <- tempfile(fileext = ".d2")
+connected_diagram
+#> [1] "direction: right" ""                 "R -> D2"          "D2 -> R"         
+#> [5] "R.shape: oval"    "D2.shape: square"
 
-output <- paste0(knitr::opts_chunk$get("fig.path"), "example.png")
-
-d2_write(diagram, file)
-
-d2_render(file, output, theme = "everglade green")
-
-knitr::include_graphics(output)
+d2_include(
+  connected_diagram,
+  fig_path("connected_diagram.png")
+)
 ```
 
-<img src="man/figures/README-example.png" width="100%" />
+<img src="man/figures/README-connected_diagram.png" width="100%" />
+
+The entity-relationship diagrams and table schema can be represented
+using the SQL table style diagrams with `d2_sql_table()`:
+
+``` r
+mtcars_tbl <- d2_sql_table(mtcars[, 1:4], .id = "mtcars")
+
+mtcars_tbl
+#> [1] "mtcars: {\n    shape: sql_table\n    mpg: dbl\n    cyl: dbl\n    disp: dbl\n    hp: dbl\n}"
+
+d2_include(mtcars_tbl, output = fig_path("mtcars.png"), pad = 10)
+```
+
+<img src="man/figures/README-mtcars.png" width="100%" />
+
+You can use `d2_render()` to convert a D2 file into a PNG, SVG, PDF, or
+GIF file. `d2_include()` is a wrapper for `knitr::include_graphics()`
+that helps to include a diagram in a Quarto or R Markdown document:
+
+``` r
+diagram <- d2_diagram(
+  c("Beginning" = "Middle",
+    "Middle" = "End",
+    "End" = "Beginning"),
+  "Beginning.shape: circle",
+  "End.shape: square",
+  direction = "right"
+)
+
+diagram
+#> [1] "direction: right"        ""                       
+#> [3] "Beginning -> Middle"     "Middle -> End"          
+#> [5] "End -> Beginning"        "Beginning.shape: circle"
+#> [7] "End.shape: square"
+
+d2_include(
+  diagram,
+  output = fig_path("include-example.png"),
+  sketch = TRUE,
+  theme = "Terminal"
+)
+```
+
+<img src="man/figures/README-include-example.png" width="100%" />
