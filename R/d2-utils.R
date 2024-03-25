@@ -11,16 +11,19 @@ d2_read <- function(file) {
 }
 
 #' @param data A set of lines or a file path to a d2 file.
-#' @rdname d2_read
-#' @param file File name to write to disk.
+#' @param file File name to write to disk. If `NULL`, set to temporary file name
+#'   using supplied file extension.
 #' @param fileext File extension to use for writing data to disk.
+#' @rdname d2_read
 #' @export
 d2_write <- function(data,
-                     file = tempfile(fileext = fileext),
+                     file = NULL,
                      fileext = "d2") {
   if (all(is_d2_file(data, fileext))) {
     data <- d2_read(data)
   }
+
+  file <- file %||% tempfile(fileext = paste0(".", fileext))
 
   # write a d2 file to disk
   writeLines(data, file)

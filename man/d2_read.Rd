@@ -8,12 +8,13 @@
 \usage{
 d2_read(file)
 
-d2_write(data, file = tempfile(fileext = fileext), fileext = "d2")
+d2_write(data, file = NULL, fileext = "d2")
 
 d2_fmt(file)
 }
 \arguments{
-\item{file}{File name to write to disk.}
+\item{file}{File name to write to disk. If \code{NULL}, set to temporary file name
+using supplied file extension.}
 
 \item{data}{A set of lines or a file path to a d2 file.}
 
