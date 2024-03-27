@@ -40,18 +40,12 @@ You can install the development version of d2r like so:
 # pak::pkg_install("elipousson/d2r")
 ```
 
-## Example
+## Examples
+
+### Setup
 
 ``` r
 library(d2r)
-
-# Helper function for file paths
-fig_path <- \(x) {
-  paste0(knitr::opts_chunk$get("fig.path"), x)
-}
-
-options("d2r.pad" = 10)
-options("d2r.direction" = "right")
 ```
 
 If d2 is installed and available on your PATH, you can check the
@@ -77,6 +71,18 @@ See this [2018 blog post by Tony
 Tsai](https://blog.tonytsai.name/blog/2018-05-07-setting-path-variable-for-gs-command-in-rstudio/)
 on trouble-shooting `PATH` variable issues for `brew`-installed
 commands.
+
+## Basic usage
+
+``` r
+# Helper function for file paths
+fig_path <- \(x) {
+  paste0(knitr::opts_chunk$get("fig.path"), x)
+}
+
+options("d2r.pad" = 10)
+options("d2r.direction" = "right")
+```
 
 Here is an example of a basic diagram created with `d2_diagram()`:
 
@@ -124,10 +130,10 @@ The entity-relationship diagrams and table schema can be represented
 using the SQL table style diagrams with `d2_sql_table()`:
 
 ``` r
-mtcars_tbl <- d2_sql_table(mtcars[, 1:4], .id = "mtcars")
+mtcars_tbl <- d2_sql_table(mtcars[, 1:4], id = "mtcars")
 
 mtcars_tbl
-#> [1] "mtcars: {\n    shape: sql_table\n    mpg: dbl\n    cyl: dbl\n    disp: dbl\n    hp: dbl\n}"
+#> [1] "mtcars: {\n       label: mtcars\n     shape: sql_table\n        mpg: dbl\n\n    cyl: dbl\n\n    disp: dbl\n\n    hp: dbl\n\n}"
 
 d2_include(mtcars_tbl, output = fig_path("mtcars.png"), pad = 10)
 ```
@@ -163,3 +169,20 @@ d2_include(
 ```
 
 <img src="man/figures/README-include-example.png" width="100%" />
+
+## Related packages
+
+ggplot2 packages for building diagrams and network visualizations:
+
+- [ggflowchart](https://nrennie.rbind.io/ggflowchart/)
+- [ggraph](https://ggraph.data-imaginist.com/)
+- [ggdag](https://r-causal.github.io/ggdag/)
+
+Other network visualization packages:
+
+- [DiagrammeR](https://rich-iannone.github.io/DiagrammeR/)
+- [networkD3](https://christophergandrud.github.io/networkD3/)
+
+Other packages for working with diagrams:
+
+- [minixcali](https://baptiste.github.io/minixcali/index.html)
