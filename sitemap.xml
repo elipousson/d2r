@@ -19,13 +19,13 @@
     <loc>https://elipousson.github.io/d2r/reference/d2-utils.html</loc>
   </url>
   <url>
+    <loc>https://elipousson.github.io/d2r/reference/d2_container.html</loc>
+  </url>
+  <url>
     <loc>https://elipousson.github.io/d2r/reference/d2_diagram.html</loc>
   </url>
   <url>
     <loc>https://elipousson.github.io/d2r/reference/d2_install.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/d2_map.html</loc>
   </url>
   <url>
     <loc>https://elipousson.github.io/d2r/reference/d2_read.html</loc>
@@ -35,6 +35,9 @@
   </url>
   <url>
     <loc>https://elipousson.github.io/d2r/reference/d2_sql_table.html</loc>
+  </url>
+  <url>
+    <loc>https://elipousson.github.io/d2r/reference/d2_style.html</loc>
   </url>
   <url>
     <loc>https://elipousson.github.io/d2r/reference/d2r-package.html</loc>

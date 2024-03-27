@@ -54,6 +54,7 @@ d2_include() combines d2_render() with knitr::include_graphics()."><!-- mathjax 
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">d2_render</span><span class="op">(</span></span>
 <span>  <span class="va">input</span>,</span>
 <span>  output <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
 <span>  fileext <span class="op">=</span> <span class="st">"svg"</span>,</span>
 <span>  layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"d2r.layout"</span>, <span class="st">"elk"</span><span class="op">)</span>,</span>
 <span>  theme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"d2r.theme"</span><span class="op">)</span>,</span>
@@ -61,7 +62,6 @@ d2_include() combines d2_render() with knitr::include_graphics()."><!-- mathjax 
 <span>  pad <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"d2r.pad"</span><span class="op">)</span>,</span>
 <span>  animate_interval <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  font_family <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  <span class="va">...</span>,</span>
 <span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -84,6 +84,10 @@ d2_include() combines d2_render() with knitr::include_graphics()."><!-- mathjax 
 
 <dt>output</dt>
 <dd><p>Output filename.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Additional input flags. Optional character vector.</p></dd>
 
 
 <dt>fileext</dt>
@@ -117,13 +121,11 @@ whole number.</p></dd>
 <dd><p>String with font family name. Passed to
 <code><a href="https://systemfonts.r-lib.org/reference/match_font.html" class="external-link">systemfonts::match_font()</a></code> to set the regular, bold, and italic fonts.
 Fonts must be a TTF file. D2 has a flag for setting semi-bold fonts but
-this is not supported at this time. <code>font_family</code> can also be provided as a
+this is not supported at this time. <code>font_family</code> can also be supplied as a
 named vector of font family names with elements named regular, italic, and
-bold to use different font family names for the different styles of fonts.</p></dd>
-
-
-<dt>...</dt>
-<dd><p>Additional input flags. Optional character vector.</p></dd>
+bold to use different font family names for the different styles of fonts.
+<code>font_family</code> can also be a vector of TTF file paths to allow users to
+provide distinct fonts for regular, italic, and bold text.</p></dd>
 
 
 <dt>overwrite</dt>

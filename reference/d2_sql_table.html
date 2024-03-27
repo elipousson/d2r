@@ -51,8 +51,9 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">d2_sql_table</span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  visibility <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  types <span class="op">=</span> <span class="va">vec_ptype_abbr</span>,</span>
-<span>  .id <span class="op">=</span> <span class="fu">caller_arg</span><span class="op">(</span><span class="va">data</span><span class="op">)</span>,</span>
+<span>  col_types <span class="op">=</span> <span class="va">vec_ptype_abbr</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  label <span class="op">=</span> <span class="va">id</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -60,7 +61,9 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
-<dd><p>A data frame used for column names and types.</p></dd>
+<dd><p>A data frame used for column names and types. Ignored if
+<code>col_types</code> is a named vector. Required if <code>col_types</code> is unnamed or a
+function.</p></dd>
 
 
 <dt>visibility</dt>
@@ -68,25 +71,75 @@
 recycled to match the number of columns in <code>data</code>.</p></dd>
 
 
-<dt>types</dt>
-<dd><p>A character vector matching the number of columns in data or a
-function used to return the character vector. Defaults to
+<dt>col_types</dt>
+<dd><p>A named character vector, an unnamed character vector with
+the same length as the number of columns in <code>data</code>, or a function that
+returns a character vector based on the columns from <code>data</code>. Defaults to
 <a href="https://vctrs.r-lib.org/reference/vec_ptype_full.html" class="external-link">vctrs::vec_ptype_abbr</a>. Other recommended options are
 <a href="https://vctrs.r-lib.org/reference/vec_ptype_full.html" class="external-link">vctrs::vec_ptype_full</a> or <a href="https://rdrr.io/r/base/typeof.html" class="external-link">base::typeof</a>. If <code>types</code> is a named character
 vector, the column names of <code>data</code> are ignored the names of types used
 instead.</p></dd>
 
 
-<dt>.id</dt>
-<dd><p>Table ID passed to <code><a href="d2_map.html">d2_map()</a></code>. Defaults to
-<code>rlang::caller_arg(data)</code></p></dd>
+<dt>id</dt>
+<dd><p>Diagram container id passed to <code><a href="d2_container.html">d2_container()</a></code>. Defaults to
+<code>NULL</code>. If <code>NULL</code>, <code>id</code> is set to <code>rlang::caller_arg(data)</code> if <code>data</code> is
+supplied or a random string if <code>data = NULL</code>.</p></dd>
+
+
+<dt>label</dt>
+<dd><p>Diagram label. Defaults to <code>id</code>. If supplied, <code>label</code> is
+displayed instead of <code>id</code>.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Unused at present.</p></dd>
+<dd><p>Arguments passed on to <code><a href="d2_container.html">d2_container</a></code></p><dl><dt><code>lines</code></dt>
+<dd><p>Optional diagram text. If supplied <code>lines</code> is recycled to match
+the length of <code>id</code>.</p></dd>
+
+    <dt><code>class</code></dt>
+<dd><p>Diagram class</p></dd>
+
+    <dt><code>width,height</code></dt>
+<dd><p>Diagram width and height (in pixels?)</p></dd>
+
+    <dt><code>style</code></dt>
+<dd><p>A string or results from the <code><a href="d2_style.html">d2_style()</a></code> helper function.</p></dd>
+
+    <dt><code>icon</code></dt>
+<dd><p>Diagram icon</p></dd>
+
+    <dt><code>collapse</code></dt>
+<dd><p>If <code>collapse = "\n"</code>, return a string with D2 diagram code for a
+container. If <code>collapse = NULL</code> (default), return a character vector with the same
+length as id.</p></dd>
+
+  
+</dl></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
 
+<p>A character string with D2 diagram code using the "sql_type"
+shape.</p>
+    </div>
+
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">d2_sql_table</span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "mtcars[, 1:4]: {\n       label: mtcars[, 1:4]\n     shape: sql_table\n        mpg: dbl\n\n    cyl: dbl\n\n    disp: dbl\n\n    hp: dbl\n\n}"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">d2_sql_table</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  label <span class="op">=</span> <span class="st">"col_types Example"</span>,</span></span>
+<span class="r-in"><span>  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span> <span class="op">=</span> <span class="st">"char"</span>, <span class="st">"num"</span> <span class="op">=</span> <span class="st">"int"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "sWLkluue: {\n       label: col_types Example\n     shape: sql_table\n        name: char\n\n    num: int\n\n}"</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
