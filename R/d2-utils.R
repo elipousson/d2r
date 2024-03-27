@@ -18,7 +18,8 @@ d2_read <- function(file) {
 #' @export
 d2_write <- function(data,
                      file = NULL,
-                     fileext = "d2") {
+                     fileext = "d2",
+                     tidy = getOption("d2r.tidy", TRUE)) {
   if (all(is_d2_file(data, fileext))) {
     data <- d2_read(data)
   }
@@ -28,6 +29,10 @@ d2_write <- function(data,
   # write a d2 file to disk
   writeLines(data, file)
 
+  if (tidy) {
+    d2_fmt(file = file)
+  }
+
   invisible(file)
 }
 
@@ -35,12 +40,10 @@ d2_write <- function(data,
 #' @export
 d2_fmt <- function(file) {
   check_d2_file(file)
-  out <- exec_d2("fmt", args = file, std_out = std_bullets)
+  out <- exec_d2(args = c("fmt", file), std_out = std_bullets)
 }
 
-
 #' Basic D2 utilities
-#'
 #'
 #' @name d2-utils
 NULL
@@ -129,7 +132,7 @@ check_d2_file <- function(
 }
 
 #' @noRd
-exec_d2 <- function(args = list(), sep = "", std_out = std_alert_info) {
+exec_d2 <- function(args = list(), std_out = std_alert_info) {
   std_out <- std_out %||% TRUE
   exec_wait(cmd = "d2", args = args, std_out = std_out)
 }
