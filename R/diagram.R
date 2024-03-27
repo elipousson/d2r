@@ -1,6 +1,6 @@
 #' Create a D2 diagram from a named vector and connectors
 #'
-#' [d2_diagram()] is an initial experimental implementation of diagram building
+#' Note: this is an initial experimental implementation of diagram building
 #' and may change or be deprecated in the future.
 #'
 #' @param lines A list or character vector. Named elements are connected using
@@ -18,21 +18,21 @@
 #'   as the name of the imported element. If import is unnamed, the partial
 #'   import method is used: https://d2lang.com/tour/imports#partial-imports See:
 #'   <https://d2lang.com/tour/imports>
-#' @param .id Identifier for map container for diagram.
+#' @param id Identifier for map container for diagram.
 #' @inheritParams base::paste0
 #' @examples
 #' d2_diagram(c("x" = "y"))
 #'
-#' d2_diagram(c("a" = "b"), "<-", direction = "up")
+#' d2_diagram(c("a" = "b"), connector = "<-", direction = "up")
 #'
-#' d2_diagram(c("start" = "end"), "<->", import = "imported.d2")
+#' d2_diagram(c("start" = "end"), connector = "<->", import = "imported.d2")
 #'
 #' @export
 d2_diagram <- function(
     lines = NULL,
     ...,
     connector = NULL,
-    .id = NULL,
+    id = NULL,
     direction = getOption("d2r.direction"),
     import = NULL,
     collapse = NULL) {
@@ -40,8 +40,8 @@ d2_diagram <- function(
     diagram <- build_d2_diagram(lines, connector)
   }
 
-  if (!is.null(.id)) {
-    diagram <- d2_map(.id = .id, diagram)
+  if (!is.null(id)) {
+    diagram <- d2_container(id = id, diagram)
   }
 
   diagram <- c(diagram, ...)
@@ -54,53 +54,111 @@ d2_diagram <- function(
   paste0(diagram, collapse = collapse)
 }
 
-#' Create a D2 map
+#' Create a D2 container or map
 #'
-#' A map is a group within the diagram. This is required for [d2_sql_table()]
-#' but can to set properties such as the class, label, or shape for a grouped
-#' set of diagram elements.
+#' A container or map is a group of diagram elements. Some special chart types,
+#' such as the SQL Table created by [d2_sql_table()] must be set up as a
+#' container. Using containers can also help set element properties including
+#' the class, label, shape and dimensions (width and height) for a set of
+#' diagram elements.
 #'
-#' @param ... Text lines for diagram.
-#' @param .id D2 diagram map identifier.
-#' @param .class Diagram map class
-#' @param .label Diagram map label
-#' @param .shape Diagram map shape
+#' @param ... Diagram text.
+#' @param lines Optional diagram text. If supplied `lines` is recycled to match
+#'   the length of `id`.
+#' @param id D2 diagram map identifier. All other container or map attributes
+#'   are recycled to match the length of `id` using [vctrs::vec_recycle_common()]
+#' @param class Diagram class
+#' @param label Diagram label
+#' @param shape Diagram shape
+#' @param width,height Diagram width and height (in pixels?)
+#' @param style A string or results from the [d2_style()] helper function.
+#' @param icon Diagram icon
+#' @param collapse If `collapse = "\n"`, return a string with D2 diagram code for a
+#'   container. If `collapse = NULL` (default), return a character vector with the same
+#'   length as id.
 #' @examples
-#' d2_map(
-#'   "principal -> teachers",
-#'   "teachers -> students",
-#'   .id = "school",
-#'   .shape = "circle"
+#' d2_container(
+#'   "team1 <-> team2", "team2 <-> team3", "team3 <-> team1",
+#'   id = c("round1", "round2")
+#' )
+#'
+#' d2_container(
+#'   lines = c("shark -> fish: eats", "lion -> gazelle: eats"),
+#'   id = c("ocean", "savannah")
 #' )
 #'
 #' @export
-d2_map <- function(...,
-                   .id = NULL,
-                   .class = NULL,
-                   .label = NULL,
-                   .shape = NULL) {
+#' @returns A string or character vector with D2 diagram code.
+d2_container <- function(
+    ...,
+    lines = NULL,
+    id = NULL,
+    class = NULL,
+    name = NULL,
+    label = NULL,
+    shape = NULL,
+    width = NULL,
+    height = NULL,
+    icon = NULL,
+    style = d2_style(),
+    collapse = NULL) {
+  vec_recycle_common(
+    name,
+    class,
+    label,
+    shape,
+    width,
+    height,
+    icon,
+    style,
+    .size = length(id)
+  )
+
+  # Create container vector from attributes
+  container_start <- paste(
+    d2_key_val(key = id, val = "", indent = "", after = "{\n"),
+    d2_key_val(name),
+    d2_key_val(class),
+    d2_key_val(label),
+    d2_key_val(shape),
+    d2_key_val(width),
+    d2_key_val(height),
+    d2_key_val(icon),
+    d2_key_val(style)
+  )
+
+  container_end <- rep_along(container_start, "\n}")
+
+  if (!is.null(lines)) {
+    lines <- paste(lines, sep = "\n")
+
+    lines <- vec_recycle(
+      lines,
+      size = length(container_start)
+    )
+  }
+
   paste0(
-    c(
-      paste0(
-        d2_key_val(val = "", key = .id, indent = ""), "{"
-      ),
-      d2_key_val(.class, "class"),
-      d2_key_val(.label, "label"),
-      d2_key_val(.shape, "shape"),
-      ...,
-      "}"
-    ),
-    collapse = "\n"
+    container_start,
+    lines,
+    paste0(c(...), collapse = "\n"),
+    container_end,
+    collapse = collapse
   )
 }
 
 #' @noRd
-d2_key_val <- function(val = NULL, key = NULL, indent = "    ", sep = ":") {
+d2_key_val <- function(
+    val = NULL,
+    key = caller_arg(val),
+    indent = "    ",
+    sep = ": ",
+    after = "\n") {
   if (is.null(val)) {
     return(val)
   }
 
-  paste0(indent, key, sep, " ", val)
+  paste0(indent, key, sep, val, after)
 }
 
 #' Assign an import value for a diagram
@@ -291,22 +349,4 @@ get_d2_attr <- function(x, which = "shape") {
 set_d2_attr <- function(x, value, which = "shape") {
   attr(x, which) <- value
   x
-}
-
-#' Check if object is a vector with only named elements
-#'
-#' @noRd
-obj_check_vector_named <- function(
-    x,
-    ...,
-    arg = caller_arg(x),
-    call = caller_env()) {
-  vctrs::obj_check_vector(x, arg = arg, call = call)
-
-  if (!is_named(x)) {
-    cli_abort(
-      "{.arg {arg}} must be a named vector",
-      call = call
-    )
-  }
 }
