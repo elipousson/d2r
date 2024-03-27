@@ -8,7 +8,7 @@
 \usage{
 d2_read(file)
 
-d2_write(data, file = NULL, fileext = "d2")
+d2_write(data, file = NULL, fileext = "d2", tidy = getOption("d2r.tidy", TRUE))
 
 d2_fmt(file)
 }

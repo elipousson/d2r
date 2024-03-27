@@ -8,8 +8,8 @@ d2_diagram(
   lines = NULL,
   ...,
   connector = NULL,
-  .id = NULL,
-  direction = NULL,
+  id = NULL,
+  direction = getOption("d2r.direction"),
   import = NULL,
   collapse = NULL
 )
@@ -26,7 +26,7 @@ any shape to the value of any shape. Must be vector of:
 --, ->, <-, and <->. Vector is recycled to
 match length of named shapes.}
 
-\item{.id}{Identifier for map container for diagram.}
+\item{id}{Identifier for map container for diagram.}
 
 \item{direction}{Optional direction for diagram. Must be one of:
 up, down, right, and left.}
@@ -42,14 +42,14 @@ import method is used: https://d2lang.com/tour/imports#partial-imports See:
     the result is always a string (\code{\link[base]{character}} of length 1).}
 }
 \description{
-\code{\link[=d2_diagram]{d2_diagram()}} is an initial experimental implementation of diagram building
+Note: this is an initial experimental implementation of diagram building
 and may change or be deprecated in the future.
 }
 \examples{
 d2_diagram(c("x" = "y"))
 
-d2_diagram(c("a" = "b"), "<-", direction = "up")
+d2_diagram(c("a" = "b"), connector = "<-", direction = "up")
 
-d2_diagram(c("start" = "end"), "<->", import = "imported.d2")
+d2_diagram(c("start" = "end"), connector = "<->", import = "imported.d2")
 
 }

@@ -8,6 +8,7 @@
 d2_render(
   input,
   output = NULL,
+  ...,
   fileext = "svg",
   layout = getOption("d2r.layout", "elk"),
   theme = getOption("d2r.theme"),
@@ -15,7 +16,6 @@ d2_render(
   pad = getOption("d2r.pad"),
   animate_interval = NULL,
   font_family = NULL,
-  ...,
   overwrite = TRUE
 )
 
@@ -33,6 +33,8 @@ d2_include(
 \item{input}{Required input file with \code{"d2"} file extension.}
 
 \item{output}{Output filename.}
+
+\item{...}{Additional input flags. Optional character vector.}
 
 \item{fileext}{One of: svg, pdf, png, gif, pptx. Ignored if \code{output} is supplied.}
 
@@ -52,11 +54,11 @@ whole number.}
 \item{font_family}{String with font family name. Passed to
 \code{\link[systemfonts:match_font]{systemfonts::match_font()}} to set the regular, bold, and italic fonts.
 Fonts must be a TTF file. D2 has a flag for setting semi-bold fonts but
-this is not supported at this time. \code{font_family} can also be provided as a
+this is not supported at this time. \code{font_family} can also be supplied as a
 named vector of font family names with elements named regular, italic, and
-bold to use different font family names for the different styles of fonts.}
-
-\item{...}{Additional input flags. Optional character vector.}
+bold to use different font family names for the different styles of fonts.
+\code{font_family} can also be a vector of TTF file paths to allow users to
+provide distinct fonts for regular, italic, and bold text.}
 
 \item{overwrite}{If \code{FALSE} and output exists, abort rendering. Defaults to
 \code{TRUE}.}
