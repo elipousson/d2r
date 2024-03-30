@@ -150,13 +150,28 @@ d2_container <- function(
 #' @noRd
 d2_key_val <- function(
     val = NULL,
-    key = caller_arg(val),
+    key = arg,
     indent = "    ",
     sep = ": ",
-    after = "\n") {
-  if (is.null(val)) {
+    after = "\n",
+    allow_empty = TRUE,
+    allow_null = TRUE,
+    allow_na = TRUE,
+    arg = caller_arg(val),
+    call = caller_env()) {
+  if (allow_null && is.null(val)) {
     return(val)
   }
+
+  if (allow_null && is.na(val)) {
+    return(NULL)
+  }
+
+  if (allow_empty && identical(val, "")) {
+    return(NULL)
+  }
+
+  check_string(val, allow_empty = FALSE, arg = arg, call = call)
 
   paste0(indent, key, sep, val, after)
 }
