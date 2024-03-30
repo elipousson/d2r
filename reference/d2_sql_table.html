@@ -130,13 +130,13 @@ shape.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">d2_sql_table</span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "mtcars[, 1:4]: {\n       label: mtcars[, 1:4]\n     shape: sql_table\n        mpg: dbl\n\n    cyl: dbl\n\n    disp: dbl\n\n    hp: dbl\n\n}"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in allow_null &amp;&amp; is.na(val):</span> 'length = 4' in coercion to 'logical(1)'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">d2_sql_table</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  label <span class="op">=</span> <span class="st">"col_types Example"</span>,</span></span>
 <span class="r-in"><span>  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span> <span class="op">=</span> <span class="st">"char"</span>, <span class="st">"num"</span> <span class="op">=</span> <span class="st">"int"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "sWLkluue: {\n       label: col_types Example\n     shape: sql_table\n        name: char\n\n    num: int\n\n}"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in allow_null &amp;&amp; is.na(val):</span> 'length = 2' in coercion to 'logical(1)'</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
