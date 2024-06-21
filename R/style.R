@@ -8,11 +8,12 @@
 #' @param level String. "shape", "connector", or "root". If "root", limit style to
 #'   supported attributes for root-level style. See
 #'   <https://d2lang.com/tour/style#root> for more information.
-#' @param indent String. Only used if `inline = TRUE`.
 #' @param inline If `TRUE` or a string value , return a string instead of an array. Errors in either case
 #'   and more than a single parameter is supplied. If string, the string is
 #'   assumed to be the id for a shape, connector, or container/map and appended
 #'   before the "style" keyword.
+#' @param after String after each line of the style specification. Defaults to
+#'   `"\n"`
 #' @examples
 #' d2_style(stroke = "#f4a261", inline = TRUE)
 #'
@@ -47,7 +48,7 @@ d2_style <- function(
     }
 
     style <- d2_key_val(
-      params[[1]],
+      val = as.character(params[[1]]),
       key = names(params),
       indent = indent,
       after = after
@@ -57,7 +58,7 @@ d2_style <- function(
   }
 
   style <- d2_key_val(
-    val = params,
+    val = as.character(params),
     key = names(params),
     after = after
   )
