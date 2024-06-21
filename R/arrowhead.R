@@ -9,7 +9,7 @@
 #' @param shape See `keys_d2[["arrowhead"]]` for allowed shape values.
 #' @param filled Must be `NULL` or logical. Ignored if shape is `"arrow"` or a
 #'   crow's foot shape (any shape starting with `"cf-"`).
-#' @param type Type of arrowhead: "source" or "target".
+#' @param type Type of arrowhead: "target" or "source".
 #' @examples
 #' d2_arrowhead(
 #'   shape = "cf-many-required",
@@ -38,10 +38,10 @@
 #'  )
 #'
 #' @export
-d2_arrowhead <- function(label = NULL,
-                         shape = "triangle",
-                         filled = NULL,
-                         type = c("source", "target")) {
+d2_arrowhead <- function(shape = "triangle",
+                         type = c("target", "source"),
+                         label = NULL,
+                         filled = NULL) {
   type <- arg_match(type)
 
   type <- paste0(type, "-arrowhead")
@@ -99,26 +99,21 @@ d2_arrowhead <- function(label = NULL,
 #' @rdname d2_arrowhead
 #' @param ... Named parameters used to set values for both the source and
 #'   target arrowheads.
-#' @param source,target Named list of arguments (excluding type) passed to
+#' @param target,source Named list of arguments (excluding type) passed to
 #'   [d2_arrowhead()].
 #' @inheritParams d2_container
 #' @importFrom utils modifyList
 #' @export
 d2_arrowheads <- function(...,
-                          source = list(),
                           target = list(),
+                          source = list(),
                           id = NULL) {
   params <- list2(...)
 
   if (!is_empty(params)) {
     params[["type"]] <- NULL
-    source <- utils::modifyList(params, source)
     target <- utils::modifyList(params, target)
-  }
-
-  if (!is_empty(source)) {
-    source <- utils::modifyList(source, list(type = "source"))
-    source <- exec(d2_arrowhead, !!!source)
+    source <- utils::modifyList(params, source)
   }
 
   if (!is_empty(target)) {
@@ -126,7 +121,12 @@ d2_arrowheads <- function(...,
     target <- exec(d2_arrowhead, !!!target)
   }
 
-  if (is_empty(c(source, target))) {
+  if (!is_empty(source)) {
+    source <- utils::modifyList(source, list(type = "source"))
+    source <- exec(d2_arrowhead, !!!source)
+  }
+
+  if (is_empty(c(target, source))) {
     return(NULL)
   }
 

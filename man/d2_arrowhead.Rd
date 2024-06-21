@@ -7,28 +7,28 @@
 arrowheads}
 \usage{
 d2_arrowhead(
-  label = NULL,
   shape = "triangle",
-  filled = NULL,
-  type = c("source", "target")
+  type = c("target", "source"),
+  label = NULL,
+  filled = NULL
 )
 
-d2_arrowheads(..., source = list(), target = list(), id = NULL)
+d2_arrowheads(..., target = list(), source = list(), id = NULL)
 }
 \arguments{
-\item{label}{Short arrowhead label.}
-
 \item{shape}{See \code{keys_d2[["arrowhead"]]} for allowed shape values.}
+
+\item{type}{Type of arrowhead: "target" or "source".}
+
+\item{label}{Short arrowhead label.}
 
 \item{filled}{Must be \code{NULL} or logical. Ignored if shape is \code{"arrow"} or a
 crow's foot shape (any shape starting with \code{"cf-"}).}
 
-\item{type}{Type of arrowhead: "source" or "target".}
-
 \item{...}{Named parameters used to set values for both the source and
 target arrowheads.}
 
-\item{source, target}{Named list of arguments (excluding type) passed to
+\item{target, source}{Named list of arguments (excluding type) passed to
 \code{\link[=d2_arrowhead]{d2_arrowhead()}}.}
 
 \item{id}{D2 diagram map identifier. All other container or map attributes
