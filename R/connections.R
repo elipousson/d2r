@@ -90,8 +90,8 @@ d2_connections <- function(from = NULL,
     to <- args[["to"]]
     from <- from[["from"]]
   } else if (!is.null(.size)) {
-    vec_check_size(from, size = size, call = call)
-    vec_check_size(to, size = size, call = call)
+    vec_check_size(from, size = .size, call = call)
+    vec_check_size(to, size = .size, call = call)
   }
 
   connector <- match_d2_connector(
