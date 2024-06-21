@@ -14,6 +14,8 @@ d2_read <- function(file) {
 #' @param file File name to write to disk. If `NULL`, set to temporary file name
 #'   using supplied file extension.
 #' @param fileext File extension to use for writing data to disk.
+#' @param tidy If `TRUE`, pass the tidy flag to the command line execution.
+#'   Defaults to `getOption("d2r.tidy", TRUE)`.
 #' @rdname d2_read
 #' @export
 d2_write <- function(data,

@@ -68,6 +68,7 @@ d2_diagram <- function(
 #' @param id D2 diagram map identifier. All other container or map attributes
 #'   are recycled to match the length of `id` using [vctrs::vec_recycle_common()]
 #' @param class Diagram class
+#' @param name Diagram container name
 #' @param label Diagram label
 #' @param shape Diagram shape
 #' @param width,height Diagram width and height (in pixels?)
