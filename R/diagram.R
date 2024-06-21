@@ -116,7 +116,7 @@ d2_container <- function(
 
   # Create container vector from attributes
   container_start <- paste(
-    d2_key_val(key = id, val = "", indent = "", after = "{\n"),
+    d2_id(id, after = " {\n"),
     d2_key_val(name),
     d2_key_val(class),
     d2_key_val(label),
@@ -148,6 +148,16 @@ d2_container <- function(
 }
 
 #' @noRd
+d2_id <- function(id,
+                  label = "",
+                  indent = "",
+                  sep = ":",
+                  after = " ",
+                  ...) {
+  paste0(indent, id, sep, label, after, ...)
+}
+
+#' @noRd
 d2_key_val <- function(
     val = NULL,
     key = arg,
@@ -163,7 +173,7 @@ d2_key_val <- function(
     return(val)
   }
 
-  if (allow_null && is.na(val)) {
+  if (allow_na && all(is.na(val))) {
     return(NULL)
   }
 
@@ -171,7 +181,7 @@ d2_key_val <- function(
     return(NULL)
   }
 
-  check_string(val, allow_empty = FALSE, arg = arg, call = call)
+  check_character(val, allow_empty = FALSE, arg = arg, call = call)
 
   paste0(indent, key, sep, val, after)
 }
@@ -263,6 +273,7 @@ build_d2_diagram <- function(shapes,
   }
 
   shapes_named <- vec_slice(shapes, shapes_have_name, error_call = call)
+  shapes_names <- names(shapes_named)
 
   connector <- match_d2_connector(
     connector,
@@ -273,7 +284,7 @@ build_d2_diagram <- function(shapes,
   diagram <- vec_assign(
     shapes,
     i = shapes_have_name,
-    paste(names(shapes_named), connector, shapes_named),
+    paste(shapes_names, connector, shapes_named),
     x_arg = "shapes"
   )
 
@@ -284,11 +295,14 @@ build_d2_diagram <- function(shapes,
 #'
 #' @noRd
 match_d2_connector <- function(
-    connector,
+    connector = NULL,
     multiple = TRUE,
     size = NULL,
+    default = "->",
     error_arg = caller_arg(connector),
     error_call = caller_env()) {
+  connector <- connector %||% default
+
   connector <- arg_match(
     connector, keys_d2[["connector"]],
     multiple = multiple,
@@ -310,20 +324,21 @@ match_d2_connector <- function(
 #'
 #' @noRd
 assign_connector_labels <- function(diagram,
-                                    connector = NULL) {
-  connector_nm <- names(connector)
+                                    connector = NULL,
+                                    label = NULL) {
+  label <- label %||% names(connector)
 
-  if (is.null(connector_nm)) {
+  if (is.null(label)) {
     return(diagram)
   }
 
-  i <- !vctrs::vec_in(connector_nm, "")
+  i <- !vctrs::vec_in(label, "")
 
   vctrs::vec_assign(
     diagram,
     i = i,
     value = paste0(
-      vec_slice(diagram, i), ": ", vec_slice(connector_nm, i)
+      vec_slice(diagram, i), ": ", vec_slice(label, i)
     )
   )
 }
