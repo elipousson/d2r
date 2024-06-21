@@ -161,7 +161,7 @@ d2_render_elk <- function(
 
   elk_args <- glue_params(
     params = elk_params,
-    template = elk_templates
+    templates = elk_templates
   )
 
   d2_render(
