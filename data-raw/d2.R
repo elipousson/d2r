@@ -36,7 +36,7 @@ keys_d2 <- list(
   # https://d2lang.com/tour/connections#arrowheads
   "arrowhead" = c(
     "triangle", "arrow", "diamond", "circle",
-    "cf-one", "cf-one-required", "cf-many, cf-many-required"
+    "cf-one", "cf-one-required", "cf-many", "cf-many-required"
   ),
 
   # https://d2lang.com/tour/layouts#direction
