@@ -53,7 +53,7 @@ version:
 
 ``` r
 d2_version()
-#> ℹ v0.6.3 <https://d2lang.com/releases/0.6.3>
+#> ℹ v0.6.5 <https://d2lang.com/releases/0.6.5>
 ```
 
 If you have D2 installed with Homebrew, you may have trouble rendering a
@@ -93,6 +93,9 @@ simple_diagram <- d2_diagram(
 
 simple_diagram
 #> [1] "direction: right" ""                 "R -> D2"
+```
+
+``` r
 
 d2_include(
   simple_diagram,
@@ -117,6 +120,9 @@ connected_diagram <- d2_diagram(
 connected_diagram
 #> [1] "direction: right" ""                 "R -> D2"          "D2 -> R"         
 #> [5] "R.shape: oval"    "D2.shape: square"
+```
+
+``` r
 
 d2_include(
   connected_diagram,
@@ -134,6 +140,9 @@ mtcars_tbl <- d2_sql_table(mtcars[, 1:4], id = "mtcars")
 
 mtcars_tbl
 #> [1] "mtcars: {\n       label: mtcars\n     shape: sql_table\n        mpg: dbl\n\n    cyl: dbl\n\n    disp: dbl\n\n    hp: dbl\n\n}"
+```
+
+``` r
 
 d2_include(mtcars_tbl, output = fig_path("mtcars.png"), pad = 10)
 ```
@@ -159,6 +168,9 @@ diagram
 #> [3] "Beginning -> Middle"     "Middle -> End"          
 #> [5] "End -> Beginning"        "Beginning.shape: circle"
 #> [7] "End.shape: square"
+```
+
+``` r
 
 d2_include(
   diagram,
@@ -170,7 +182,11 @@ d2_include(
 
 <img src="man/figures/README-include-example.png" width="100%" />
 
-## Related packages
+## Related packages and projects
+
+Quarto extension for embedding d2 diagrams in documents:
+
+- [quarto-d2](https://github.com/data-intuitive/quarto-d2)
 
 ggplot2 packages for building diagrams and network visualizations:
 
@@ -186,3 +202,6 @@ Other network visualization packages:
 Other packages for working with diagrams:
 
 - [minixcali](https://baptiste.github.io/minixcali/index.html)
+
+Find more diagram-focused packages and projects in [this GitHub
+list](https://github.com/stars/elipousson/lists/r-diagrams).

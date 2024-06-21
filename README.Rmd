@@ -141,7 +141,11 @@ d2_include(
 )
 ```
 
-## Related packages
+## Related packages and projects
+
+Quarto extension for embedding d2 diagrams in documents:
+
+- [quarto-d2](https://github.com/data-intuitive/quarto-d2)
 
 ggplot2 packages for building diagrams and network visualizations:
 
@@ -157,3 +161,5 @@ Other network visualization packages:
 Other packages for working with diagrams:
 
 - [minixcali](https://baptiste.github.io/minixcali/index.html)
+
+Find more diagram-focused packages and projects in [this GitHub list](https://github.com/stars/elipousson/lists/r-diagrams).
