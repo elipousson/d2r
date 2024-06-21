@@ -47,6 +47,7 @@ d2_render <- function(
   # Set output path and check for file overwrite
   fileext <- arg_match(fileext, keys_d2[["fileext"]])
 
+  # FIXME: Add knitr context sensitive default for file extension
   output <- output %||%
     sub("\\.d2", paste0(".", fileext), basename(input))
 
