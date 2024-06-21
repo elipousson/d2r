@@ -19,6 +19,9 @@ using supplied file extension.}
 \item{data}{A set of lines or a file path to a d2 file.}
 
 \item{fileext}{File extension to use for writing data to disk.}
+
+\item{tidy}{If \code{TRUE}, pass the tidy flag to the command line execution.
+Defaults to \code{getOption("d2r.tidy", TRUE)}.}
 }
 \description{
 Read, write, and format D2 files

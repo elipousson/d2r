@@ -30,6 +30,8 @@ are recycled to match the length of \code{id} using \code{\link[vctrs:vec_recycl
 
 \item{class}{Diagram class}
 
+\item{name}{Diagram container name}
+
 \item{label}{Diagram label}
 
 \item{shape}{Diagram shape}

@@ -25,7 +25,8 @@ before the "style" keyword.}
 supported attributes for root-level style. See
 \url{https://d2lang.com/tour/style#root} for more information.}
 
-\item{indent}{String. Only used if \code{inline = TRUE}.}
+\item{after}{String after each line of the style specification. Defaults to
+\code{"\\n"}}
 }
 \description{
 Learn more: \url{https://d2lang.com/tour/style}

@@ -42,6 +42,7 @@ displayed instead of \code{id}.}
     \item{\code{lines}}{Optional diagram text. If supplied \code{lines} is recycled to match
 the length of \code{id}.}
     \item{\code{class}}{Diagram class}
+    \item{\code{name}}{Diagram container name}
     \item{\code{width,height}}{Diagram width and height (in pixels?)}
     \item{\code{style}}{A string or results from the \code{\link[=d2_style]{d2_style()}} helper function.}
     \item{\code{icon}}{Diagram icon}

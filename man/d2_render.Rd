@@ -52,7 +52,7 @@ whole number.}
 \code{"gif"} file extension.}
 
 \item{font_family}{String with font family name. Passed to
-\code{\link[systemfonts:match_font]{systemfonts::match_font()}} to set the regular, bold, and italic fonts.
+\code{\link[systemfonts:match_fonts]{systemfonts::match_font()}} to set the regular, bold, and italic fonts.
 Fonts must be a TTF file. D2 has a flag for setting semi-bold fonts but
 this is not supported at this time. \code{font_family} can also be supplied as a
 named vector of font family names with elements named regular, italic, and
