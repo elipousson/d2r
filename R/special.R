@@ -1,4 +1,5 @@
-tempid <- function(..., size = 8, replace = TRUE) {
+#' @noRd
+d2_tempid <- function(..., size = 8, replace = TRUE) {
   paste0(c(..., sample(c(LETTERS, letters), size, replace = replace)), collapse = "")
 }
 
@@ -42,17 +43,23 @@ d2_sql_table <- function(
     label = id,
     ...) {
   if (is_function(col_types)) {
-    col_types <- lapply(data, col_types)
+    col_types <- vapply(data, col_types, character(1))
   }
 
   if (!is_named(col_types)) {
     col_types <- set_names(col_types, names(data))
   }
 
-  if (!is.null(data)) {
-    id <- id %||% caller_arg(data)
+  if (!is.null(data) && is.null(id)) {
+    data_arg <- caller_arg(data)
+
+    if (any(grepl('"', data_arg))) {
+      id <- paste0("'", data_arg, "'")
+    } else {
+      id <- paste0('"', data_arg, '"')
+    }
   } else {
-    id <- id %||% tempid()
+    id <- id %||% d2_tempid()
   }
 
   check_string(id, allow_empty = FALSE)
