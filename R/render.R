@@ -21,6 +21,8 @@
 #'   provide distinct fonts for regular, italic, and bold text.
 #' @param overwrite If `FALSE` and output exists, abort rendering. Defaults to
 #'   `TRUE`.
+#' @param preview If `TRUE`, preview the rendered plot using [d2_ggplot()].
+#'   Reqires the magick package.
 #' @param ... Additional input flags. Optional character vector.
 #' @export
 d2_render <- function(
@@ -34,39 +36,32 @@ d2_render <- function(
     pad = getOption("d2r.pad"),
     animate_interval = NULL,
     font_family = NULL,
-    overwrite = TRUE) {
-  # Write input to disk if needed
-  if (is.character(input) && !all(is_d2_file(input))) {
-    input <- d2_write(input)
-  }
+    overwrite = TRUE,
+    preview = FALSE,
+    call = caller_env()) {
+  input <- set_d2_input(
+    input = input,
+    call = call
+  )
 
-  # Check input path
-  # FIXME: Add check for file path and file existence
-  check_string(input, allow_null = TRUE)
+  output <- set_d2_output(
+    output = output,
+    fileext = fileext,
+    input = input,
+    overwrite = overwrite,
+    call = call
+  )
 
-  # Set output path and check for file overwrite
-  fileext <- arg_match(fileext, keys_d2[["fileext"]])
-
-  # FIXME: Add knitr context sensitive default for file extension
-  output <- output %||%
-    sub("\\.d2", paste0(".", fileext), basename(input))
-
-  if (!overwrite && file.exists(output)) {
-    cli_abort(
-      "{.arg output} can't be replaced when {.code overwrite = FALSE}."
-    )
-  }
-
-  if (!is.null(theme)) {
-    theme <- match_d2_theme(theme)
-  }
+  theme <- match_d2_theme(theme, allow_null = TRUE, error_call = call)
 
   # Check remaining D2 render arguments
   check_d2_render_args(
+    output = output,
     layout = layout,
     sketch = sketch,
     pad = pad,
-    animate_interval = animate_interval
+    animate_interval = animate_interval,
+    call = call
   )
 
   # Create parameter list
@@ -81,9 +76,117 @@ d2_render <- function(
     output = output
   )
 
-  exec_d2_args(params = params, ...)
+  out <- exec_d2_args(params = params, ...)
+
+  if (preview && is_installed("magick")) {
+    print(d2_ggplot(out))
+  }
+
+  invisible(out)
 }
 
+#' @noRd
+set_d2_input <- function(input = NULL,
+                         call = caller_env()) {
+  # Write input to disk if needed
+  if (is.character(input) && !all(is_d2_file(input))) {
+    input <- d2_write(input)
+  }
+
+  # Check input path
+  # FIXME: Add check for file path and file existence
+  check_string(input, allow_null = TRUE, call = call)
+
+  input
+}
+
+#' @noRd
+set_d2_output <- function(output = NULL,
+                          fileext = NULL,
+                          input = NULL,
+                          overwrite = FALSE,
+                          call = caller_env()) {
+  check_string(output, allow_null = TRUE, call = call)
+
+  # Set output path and check for file overwrite
+  if (!is.null(output)) {
+    fileext <- tools::file_ext(output)
+  }
+
+  # FIXME: Add knitr context sensitive default for file extension
+  output <- output %||%
+    sub("\\.d2", paste0(".", fileext), basename(input))
+
+  match_d2_fileext(fileext, error_call = call)
+
+  if (!overwrite && file.exists(output)) {
+    cli_abort(
+      "{.arg output} can't be replaced when {.code overwrite = FALSE}.",
+      call = call
+    )
+  }
+
+  output
+}
+
+#' Plot a D2 diagram as a ggplot2 using `magick::image_ggplot()`
+#'
+#' [d2_ggplot()] renders a D2 diagram input character vector or file path (to a
+#' diagram file or rendered diagram) and plots the image with
+#' [magick::image_ggplot()].
+#'
+#' @param x A character vector of diagram text or a file path for a D2 diagram
+#'   file to render as a diagram with [d2_render()] before plotting. A file path
+#'   for a rendered D2 diagram file one using a svg, pdf, png, or gif file
+#'   extension is also allowed.
+#' @param ... Additional parameters passed to [d2_diagram()].
+#' @param density Resolution to render pdf passed to [magick::image_read_pdf()].
+#'   Default `150`.
+#' @inheritParams rlang::args_error_context
+#' @export
+#' @importFrom tools file_ext
+d2_ggplot <- function(x,
+                      ...,
+                      density = 150,
+                      width = NULL,
+                      height = NULL,
+                      interpolate = FALSE,
+                      arg = caller_arg(x),
+                      call = caller_env()) {
+  check_installed("magick", call = call)
+  check_character(x, arg = arg, call = call)
+
+  if (is.character(x) && (all(is_d2_file(x)) || length(x) > 1)) {
+    x <- d2_diagram(x, ...)
+  } else if (!file.exists(x)) {
+    cli_abort(
+      "{.arg {arg}} must be an existing file.",
+      call = call
+    )
+  }
+
+  fileext <- tools::file_ext(x)
+  match_d2_fileext(fileext, call = call)
+
+  if (fileext == "svg") {
+    out_image <- magick::image_read_svg(
+      x,
+      width = width,
+      height = height
+    )
+  } else if (fileext == "pdf") {
+    out_image <- magick::image_read_pdf(
+      x,
+      pages = 1,
+      density = density
+    ) |>
+      magick::image_convert(format = "png")
+  } else {
+    out_image <- magick::image_read(x)
+  }
+
+  magick::image_ggplot(out_image, interpolate = interpolate)
+}
 
 #' [d2_include()] combines [d2_render()] with [knitr::include_graphics()].
 #'
@@ -124,7 +227,6 @@ d2_render_elk <- function(
     ),
     edgeNodeBetweenLayers = 40,
     nodeSelfLoop = 50) {
-
   check_string(algorithm, allow_null = TRUE)
 
   obj_check_vector_named(
@@ -173,47 +275,35 @@ d2_render_elk <- function(
   )
 }
 
-#' Match D2 theme to supported options
-#'
-#' @noRd
-match_d2_theme <- function(theme,
-                           error_call = caller_env()) {
-  theme_int <- suppressWarnings(as.integer(theme))
-
-  if (is.character(theme) && is.na(theme_int)) {
-    theme_nm <- tolower(theme)
-
-    if (!all(theme_nm %in% tolower(names(themes_d2)))) {
-      theme <- arg_match(
-        theme,
-        values = names(themes_d2),
-        error_call = error_call
-      )
-    }
-
-    return(keys_d2[["theme"]][theme_nm])
-  }
-
-  if (is.integer(theme_int) && !any(themes_d2 == theme_int)) {
-    cli_abort(
-      "{.arg theme} must be a valid theme name
-      or one of the following whole numbers: {themes_d2}, not {theme}",
-      call = error_call
-    )
-  }
-
-  theme
-}
-
 #' Check input arguments for rendering D2 diagram (except theme and font_family)
 #' @noRd
 check_d2_render_args <- function(
+    output = NULL,
+    fileext = NULL,
     layout = getOption("d2r.layout", "elk"),
     sketch = getOption("d2r.sketch"),
     pad = getOption("d2r.pad"),
     animate_interval = NULL,
     allow_null = TRUE,
     call = caller_env()) {
+  fileext <- fileext %||% tools::file_ext(output)
+
+  if (fileext == "gif") {
+    if (is.null(animate_interval) || animate_interval < 0) {
+      cli::cli_abort(
+        "{.arg animate_interval} must be greater than 0
+       when rendering a {.str gif} output.",
+        call = call
+      )
+    }
+  } else if (!is.null(animate_interval)) {
+    cli::cli_abort(
+      "{.arg animate_interval} can't be used with
+      a {.str {fileext}} output.",
+      call = call
+    )
+  }
+
   if (!is.null(layout) || (allow_null && is.null(layout))) {
     arg_match(layout, keys_d2[["layout"]], error_call = call)
   }
@@ -330,4 +420,62 @@ glue_params <- function(params, templates, parent_env = current_env()) {
     character(1),
     .envir = new_environment(params, parent = parent_env)
   )
+}
+
+#' Match D2 output file extension to supported options
+#' @noRd
+match_d2_fileext <- function(fileext,
+                             ...,
+                             allow_null = FALSE,
+                             arg = caller_arg(fileext),
+                             error_call = caller_env()) {
+  if (allow_null && is.null(fileext)) {
+    return(invisible(NULL))
+  }
+
+  arg_match(
+    fileext,
+    values = keys_d2[["fileext"]],
+    error_arg = arg,
+    error_call = error_call
+  )
+}
+
+#' Match D2 theme to supported options
+#' @noRd
+match_d2_theme <- function(theme,
+                           allow_null = TRUE,
+                           arg = caller_arg(theme),
+                           error_call = caller_env()) {
+  if (allow_null && is.null(theme)) {
+    return(invisible(NULL))
+  }
+
+  theme_int <- suppressWarnings(as.integer(theme))
+
+  if (is.character(theme) && is.na(theme_int)) {
+    theme_nm <- tolower(theme)
+    theme_values <- names(themes_d2)
+
+    if (!all(theme_nm %in% tolower(theme_values))) {
+      theme <- arg_match(
+        theme,
+        values = theme_values,
+        arg = arg,
+        error_call = error_call
+      )
+    }
+
+    return(keys_d2[["theme"]][theme_nm])
+  }
+
+  if (is.integer(theme_int) && !any(themes_d2 == theme_int)) {
+    cli_abort(
+      "{.arg {arg}} must be a valid theme name
+      or one of the following whole numbers: {themes_d2}, not {theme}",
+      call = error_call
+    )
+  }
+
+  theme
 }

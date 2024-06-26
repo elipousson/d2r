@@ -16,7 +16,9 @@ d2_render(
   pad = getOption("d2r.pad"),
   animate_interval = NULL,
   font_family = NULL,
-  overwrite = TRUE
+  overwrite = TRUE,
+  preview = FALSE,
+  call = caller_env()
 )
 
 d2_include(
@@ -62,6 +64,9 @@ provide distinct fonts for regular, italic, and bold text.}
 
 \item{overwrite}{If \code{FALSE} and output exists, abort rendering. Defaults to
 \code{TRUE}.}
+
+\item{preview}{If \code{TRUE}, preview the rendered plot using \code{\link[=d2_ggplot]{d2_ggplot()}}.
+Reqires the magick package.}
 
 \item{auto_pdf}{Whether to use PDF images automatically when the output
 format is LaTeX. If \code{TRUE}, then e.g. \file{foo/bar.png} will be
