@@ -25,7 +25,7 @@ d2_tempid <- function(..., size = 8, replace = TRUE) {
 #' @inheritDotParams d2_container -shape
 #' @examples
 #'
-#' d2_sql_table(mtcars[,1:4])
+#' d2_sql_table(mtcars[, 1:4])
 #'
 #' d2_sql_table(
 #'   label = "col_types Example",
@@ -52,7 +52,7 @@ d2_sql_table <- function(
 
   if (!is.null(data) && is.null(id)) {
     data_arg <- caller_arg(data)
-
+    # Sanitize data argument
     if (any(grepl('"', data_arg))) {
       id <- paste0("'", data_arg, "'")
     } else {

@@ -60,7 +60,7 @@ Create a D2 SQL Table Diagram
 }
 \examples{
 
-d2_sql_table(mtcars[,1:4])
+d2_sql_table(mtcars[, 1:4])
 
 d2_sql_table(
   label = "col_types Example",

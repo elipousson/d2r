@@ -14,7 +14,7 @@
 #' d2_arrowhead(
 #'   shape = "cf-many-required",
 #'   label = "Many required"
-#'  )
+#' )
 #'
 #' example_diagram <- "A -> B"
 #'
@@ -29,13 +29,13 @@
 #'     shape = "triangle",
 #'     label = "source",
 #'     filled = FALSE
-#'    ),
+#'   ),
 #'   target = list(
 #'     shape = "circle",
 #'     filled = TRUE
 #'   ),
 #'   id = example_diagram
-#'  )
+#' )
 #'
 #' @export
 d2_arrowhead <- function(shape = "triangle",
@@ -52,7 +52,7 @@ d2_arrowhead <- function(shape = "triangle",
   )
 
   if (!is.null(filled)) {
-    if (shape %in% keys_d2[["arrowhead"]][c(1,3,4)]) {
+    if (shape %in% keys_d2[["arrowhead"]][c(1, 3, 4)]) {
       check_logical(filled)
       filled <- tolower(filled)
     } else {

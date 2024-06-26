@@ -43,7 +43,7 @@ target arrowhead.
 d2_arrowhead(
   shape = "cf-many-required",
   label = "Many required"
- )
+)
 
 example_diagram <- "A -> B"
 
@@ -58,12 +58,12 @@ d2_arrowheads(
     shape = "triangle",
     label = "source",
     filled = FALSE
-   ),
+  ),
   target = list(
     shape = "circle",
     filled = TRUE
   ),
   id = example_diagram
- )
+)
 
 }
