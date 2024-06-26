@@ -142,6 +142,8 @@ set_d2_output <- function(output = NULL,
 #' @param ... Additional parameters passed to [d2_diagram()].
 #' @param density Resolution to render pdf passed to [magick::image_read_pdf()].
 #'   Default `150`.
+#' @inheritParams magick::image_read_svg
+#' @inheritParams magick::image_ggplot
 #' @inheritParams rlang::args_error_context
 #' @export
 #' @importFrom tools file_ext

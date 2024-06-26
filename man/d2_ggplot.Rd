@@ -26,6 +26,12 @@ extension is also allowed.}
 \item{density}{Resolution to render pdf passed to \code{\link[magick:editing]{magick::image_read_pdf()}}.
 Default \code{150}.}
 
+\item{width}{in pixels}
+
+\item{height}{in pixels}
+
+\item{interpolate}{passed to \link[ggplot2:annotation_raster]{ggplot2::annotation_raster}}
+
 \item{arg}{An argument name as a string. This argument
 will be mentioned in error messages as the input that is at the
 origin of a problem.}
