@@ -53,7 +53,7 @@ version:
 
 ``` r
 d2_version()
-#> ℹ v0.6.5 <https://d2lang.com/releases/0.6.5>
+#> ℹ v0.6.7 <https://d2lang.com/releases/0.6.7>
 ```
 
 If you have D2 installed with Homebrew, you may have trouble rendering a
@@ -80,11 +80,12 @@ fig_path <- \(x) {
   paste0(knitr::opts_chunk$get("fig.path"), x)
 }
 
-options("d2r.pad" = 10)
+options("d2r.pad" = 20)
 options("d2r.direction" = "right")
 ```
 
-Here is an example of a basic diagram created with `d2_diagram()`:
+Here is a basic example using `d2_diagram()` to create a basic diagram
+with two connected shapes based on a named character vector:
 
 ``` r
 simple_diagram <- d2_diagram(
@@ -96,7 +97,6 @@ simple_diagram
 ```
 
 ``` r
-
 d2_include(
   simple_diagram,
   fig_path("simple_diagram.png")
@@ -105,9 +105,9 @@ d2_include(
 
 <img src="man/figures/README-simple_diagram.png" width="100%" />
 
-You can also pass unnamed lines of text with D2 syntax, specify
-connectors (used with the named elements), and set the overall direction
-for the diagram:
+You can pass both named and unnamed lines of text with D2 syntax,
+specify connectors (used with the named elements), and set the overall
+direction for the diagram:
 
 ``` r
 connected_diagram <- d2_diagram(
@@ -123,7 +123,6 @@ connected_diagram
 ```
 
 ``` r
-
 d2_include(
   connected_diagram,
   fig_path("connected_diagram.png")
@@ -140,11 +139,8 @@ mtcars_tbl <- d2_sql_table(mtcars[, 1:4], id = "mtcars")
 
 mtcars_tbl
 #> [1] "mtcars: {\n       label: mtcars\n     shape: sql_table\n        mpg: dbl\n\n    cyl: dbl\n\n    disp: dbl\n\n    hp: dbl\n\n}"
-```
 
-``` r
-
-d2_include(mtcars_tbl, output = fig_path("mtcars.png"), pad = 10)
+d2_include(mtcars_tbl, output = fig_path("mtcars.png"))
 ```
 
 <img src="man/figures/README-mtcars.png" width="100%" />
@@ -155,9 +151,11 @@ that helps to include a diagram in a Quarto or R Markdown document:
 
 ``` r
 diagram <- d2_diagram(
-  c("Beginning" = "Middle",
+  c(
+    "Beginning" = "Middle",
     "Middle" = "End",
-    "End" = "Beginning"),
+    "End" = "Beginning"
+  ),
   "Beginning.shape: circle",
   "End.shape: square",
   direction = "right"
@@ -168,9 +166,6 @@ diagram
 #> [3] "Beginning -> Middle"     "Middle -> End"          
 #> [5] "End -> Beginning"        "Beginning.shape: circle"
 #> [7] "End.shape: square"
-```
-
-``` r
 
 d2_include(
   diagram,
@@ -190,6 +185,7 @@ Quarto extension for embedding d2 diagrams in documents:
 
 ggplot2 packages for building diagrams and network visualizations:
 
+- [ggdiagram](https://wjschne.github.io/ggdiagram/)
 - [ggflowchart](https://nrennie.rbind.io/ggflowchart/)
 - [ggraph](https://ggraph.data-imaginist.com/)
 - [ggdag](https://r-causal.github.io/ggdag/)

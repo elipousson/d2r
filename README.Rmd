@@ -71,29 +71,31 @@ fig_path <- \(x) {
   paste0(knitr::opts_chunk$get("fig.path"), x)
 }
 
-options("d2r.pad" = 10)
+options("d2r.pad" = 20)
 options("d2r.direction" = "right")
 ```
 
 
-Here is an example of a basic diagram created with `d2_diagram()`:
+Here is a basic example using `d2_diagram()` to create a basic diagram with two connected shapes based on a named character vector:
 
-```{r basic}
+```{r d2-diagram-example}
 simple_diagram <- d2_diagram(
   c("R" = "D2")
 )
 
 simple_diagram
+```
 
+```{r simple-diagram}
 d2_include(
   simple_diagram,
   fig_path("simple_diagram.png")
 )
 ```
 
-You can also pass unnamed lines of text with D2 syntax, specify connectors (used with the named elements), and set the overall direction for the diagram:
+You can pass both named and unnamed lines of text with D2 syntax, specify connectors (used with the named elements), and set the overall direction for the diagram:
 
-```{r connectors}
+```{r connected_diagram-example}
 connected_diagram <- d2_diagram(
   c("R" = "D2", "D2" = "R"),
   "R.shape: oval",
@@ -102,7 +104,9 @@ connected_diagram <- d2_diagram(
 )
 
 connected_diagram
+```
 
+```{r connected_diagram}
 d2_include(
   connected_diagram,
   fig_path("connected_diagram.png")
@@ -116,16 +120,18 @@ mtcars_tbl <- d2_sql_table(mtcars[, 1:4], id = "mtcars")
 
 mtcars_tbl
 
-d2_include(mtcars_tbl, output = fig_path("mtcars.png"), pad = 10)
+d2_include(mtcars_tbl, output = fig_path("mtcars.png"))
 ```
 
 You can use `d2_render()` to convert a D2 file into a PNG, SVG, PDF, or GIF file. `d2_include()` is a wrapper for `knitr::include_graphics()` that helps to include a diagram in a Quarto or R Markdown document:
 
 ```{r}
 diagram <- d2_diagram(
-  c("Beginning" = "Middle",
+  c(
+    "Beginning" = "Middle",
     "Middle" = "End",
-    "End" = "Beginning"),
+    "End" = "Beginning"
+  ),
   "Beginning.shape: circle",
   "End.shape: square",
   direction = "right"
@@ -149,6 +155,7 @@ Quarto extension for embedding d2 diagrams in documents:
 
 ggplot2 packages for building diagrams and network visualizations:
 
+- [ggdiagram](https://wjschne.github.io/ggdiagram/)
 - [ggflowchart](https://nrennie.rbind.io/ggflowchart/)
 - [ggraph](https://ggraph.data-imaginist.com/)
 - [ggdag](https://r-causal.github.io/ggdag/)
