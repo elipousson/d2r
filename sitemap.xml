@@ -1,66 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://elipousson.github.io/d2r/404.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/index.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/d2-utils.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/d2_arrowhead.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/d2_container.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/d2_diagram.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/d2_ggplot.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/d2_install.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/d2_read.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/d2_render.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/d2_sql_table.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/d2_style.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/d2r-package.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/is_d2_file.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/keys_d2.html</loc>
-  </url>
-  <url>
-    <loc>https://elipousson.github.io/d2r/reference/themes_d2.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://elipousson.github.io/d2r/404.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/LICENSE-text.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/LICENSE.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/authors.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/index.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/news/index.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/d2-utils.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/d2_arrowhead.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/d2_container.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/d2_diagram.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/d2_ggplot.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/d2_install.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/d2_read.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/d2_render.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/d2_sql_table.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/d2_style.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/d2r-package.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/index.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/is_d2_file.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/keys_d2.html</loc></url>
+<url><loc>https://elipousson.github.io/d2r/reference/themes_d2.html</loc></url>
 </urlset>
+
