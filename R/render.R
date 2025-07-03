@@ -2,10 +2,11 @@
 #'
 #' @param input Required input file with `"d2"` file extension.
 #' @param output Output filename.
-#' @param fileext One of: `r keys_d2[["fileext"]]`. Ignored if `output` is supplied.
+#' @param fileext One of: `r d2r::keys_d2[["fileext"]]`. Ignored if `output` is
+#'   supplied.
 #' @param theme Diagram theme name or code. Theme names are not case sensitive.
 #'   Use [d2_themes()] to list available themes.
-#' @param layout Layout. One of: `r keys_d2[["layout"]]`
+#' @param layout Layout. One of: `r d2r::keys_d2[["layout"]]`
 #' @param sketch If `TRUE`, use a hand-drawn style for the rendered diagram.
 #' @param pad Diagram padding in pixels. Numeric value or string coercible to
 #'   whole number.
@@ -24,21 +25,23 @@
 #' @param preview If `TRUE`, preview the rendered plot using [d2_ggplot()].
 #'   Reqires the magick package.
 #' @param ... Additional input flags. Optional character vector.
+#' @inheritParams rlang::args_error_context
 #' @export
 d2_render <- function(
-    input,
-    output = NULL,
-    ...,
-    fileext = "svg",
-    layout = getOption("d2r.layout", "elk"),
-    theme = getOption("d2r.theme"),
-    sketch = getOption("d2r.sketch"),
-    pad = getOption("d2r.pad"),
-    animate_interval = NULL,
-    font_family = NULL,
-    overwrite = TRUE,
-    preview = FALSE,
-    call = caller_env()) {
+  input,
+  output = NULL,
+  ...,
+  fileext = "svg",
+  layout = getOption("d2r.layout", "elk"),
+  theme = getOption("d2r.theme"),
+  sketch = getOption("d2r.sketch"),
+  pad = getOption("d2r.pad"),
+  animate_interval = NULL,
+  font_family = NULL,
+  overwrite = TRUE,
+  preview = FALSE,
+  call = caller_env()
+) {
   input <- set_d2_input(
     input = input,
     call = call
@@ -86,8 +89,7 @@ d2_render <- function(
 }
 
 #' @noRd
-set_d2_input <- function(input = NULL,
-                         call = caller_env()) {
+set_d2_input <- function(input = NULL, call = caller_env()) {
   # Write input to disk if needed
   if (is.character(input) && !all(is_d2_file(input))) {
     input <- d2_write(input)
@@ -101,11 +103,13 @@ set_d2_input <- function(input = NULL,
 }
 
 #' @noRd
-set_d2_output <- function(output = NULL,
-                          fileext = NULL,
-                          input = NULL,
-                          overwrite = FALSE,
-                          call = caller_env()) {
+set_d2_output <- function(
+  output = NULL,
+  fileext = NULL,
+  input = NULL,
+  overwrite = FALSE,
+  call = caller_env()
+) {
   check_string(output, allow_null = TRUE, call = call)
 
   # Set output path and check for file overwrite
@@ -147,14 +151,16 @@ set_d2_output <- function(output = NULL,
 #' @inheritParams rlang::args_error_context
 #' @export
 #' @importFrom tools file_ext
-d2_ggplot <- function(x,
-                      ...,
-                      density = 150,
-                      width = NULL,
-                      height = NULL,
-                      interpolate = FALSE,
-                      arg = caller_arg(x),
-                      call = caller_env()) {
+d2_ggplot <- function(
+  x,
+  ...,
+  density = 150,
+  width = NULL,
+  height = NULL,
+  interpolate = FALSE,
+  arg = caller_arg(x),
+  call = caller_env()
+) {
   check_installed("magick", call = call)
   check_character(x, arg = arg, call = call)
 
@@ -196,13 +202,14 @@ d2_ggplot <- function(x,
 #' @inheritParams knitr::include_graphics
 #' @export
 d2_include <- function(
-    input,
-    output = NULL,
-    ...,
-    auto_pdf = getOption("knitr.graphics.auto_pdf", FALSE),
-    dpi = NULL,
-    rel_path = getOption("knitr.graphics.rel_path", TRUE),
-    error = getOption("knitr.graphics.error", TRUE)) {
+  input,
+  output = NULL,
+  ...,
+  auto_pdf = getOption("knitr.graphics.auto_pdf", FALSE),
+  dpi = NULL,
+  rel_path = getOption("knitr.graphics.rel_path", TRUE),
+  error = getOption("knitr.graphics.error", TRUE)
+) {
   output <- d2_render(input = input, output = output, ...)
 
   knitr::include_graphics(
@@ -216,19 +223,20 @@ d2_include <- function(
 
 #' @noRd
 d2_render_elk <- function(
-    input,
-    output = NULL,
-    ...,
-    algorithm = "layered",
-    nodeNodeBetweenLayers = 70,
-    padding = list(
-      top = 50,
-      left = 50,
-      bottom = 50,
-      right = 50
-    ),
-    edgeNodeBetweenLayers = 40,
-    nodeSelfLoop = 50) {
+  input,
+  output = NULL,
+  ...,
+  algorithm = "layered",
+  nodeNodeBetweenLayers = 70,
+  padding = list(
+    top = 50,
+    left = 50,
+    bottom = 50,
+    right = 50
+  ),
+  edgeNodeBetweenLayers = 40,
+  nodeSelfLoop = 50
+) {
   check_string(algorithm, allow_null = TRUE)
 
   obj_check_vector_named(
@@ -237,10 +245,12 @@ d2_render_elk <- function(
   )
 
   padding <- paste0(
-    "[", paste0(
+    "[",
+    paste0(
       paste0(names(padding), "=", padding),
       collapse = ","
-    ), "]",
+    ),
+    "]",
     collapse = ""
   )
 
@@ -280,14 +290,15 @@ d2_render_elk <- function(
 #' Check input arguments for rendering D2 diagram (except theme and font_family)
 #' @noRd
 check_d2_render_args <- function(
-    output = NULL,
-    fileext = NULL,
-    layout = getOption("d2r.layout", "elk"),
-    sketch = getOption("d2r.sketch"),
-    pad = getOption("d2r.pad"),
-    animate_interval = NULL,
-    allow_null = TRUE,
-    call = caller_env()) {
+  output = NULL,
+  fileext = NULL,
+  layout = getOption("d2r.layout", "elk"),
+  sketch = getOption("d2r.sketch"),
+  pad = getOption("d2r.pad"),
+  animate_interval = NULL,
+  allow_null = TRUE,
+  call = caller_env()
+) {
   fileext <- fileext %||% tools::file_ext(output)
 
   if (fileext == "gif") {
@@ -307,7 +318,7 @@ check_d2_render_args <- function(
   }
 
   if (!is.null(layout) || (allow_null && is.null(layout))) {
-    arg_match(layout, keys_d2[["layout"]], error_call = call)
+    arg_match(layout, d2r::keys_d2[["layout"]], error_call = call)
   }
 
   check_logical(sketch, allow_null = allow_null, call = call)
@@ -319,8 +330,7 @@ check_d2_render_args <- function(
 
 #' Append vector of font parameters to supplied parameters
 #' @noRd
-set_font_family_params <- function(params = NULL,
-                                   call = caller_env()) {
+set_font_family_params <- function(params = NULL, call = caller_env()) {
   if (is.null(params[["font_family"]])) {
     return(params)
   }
@@ -335,7 +345,8 @@ set_font_family_params <- function(params = NULL,
   )
 
   if (is_named(font_family) && length(font_family) > 1) {
-    font_params[["italic"]] <- font_family[["italic"]] %||% font_family[["regular"]]
+    font_params[["italic"]] <- font_family[["italic"]] %||%
+      font_family[["regular"]]
     font_params[["bold"]] <- font_family[["bold"]] %||% font_family[["regular"]]
     font_params[["regular"]] <- font_family[["regular"]]
   }
@@ -367,11 +378,13 @@ is_ttf_path <- function(x) {
 
 #' Helper function to create arguments from parameters and templates
 #' @noRd
-exec_d2_args <- function(params = NULL,
-                         ...,
-                         exec = TRUE,
-                         parent_env = current_env(),
-                         call = caller_env()) {
+exec_d2_args <- function(
+  params = NULL,
+  ...,
+  exec = TRUE,
+  parent_env = current_env(),
+  call = caller_env()
+) {
   params <- set_font_family_params(
     params = params,
     call = call
@@ -426,18 +439,20 @@ glue_params <- function(params, templates, parent_env = current_env()) {
 
 #' Match D2 output file extension to supported options
 #' @noRd
-match_d2_fileext <- function(fileext,
-                             ...,
-                             allow_null = FALSE,
-                             arg = caller_arg(fileext),
-                             error_call = caller_env()) {
+match_d2_fileext <- function(
+  fileext,
+  ...,
+  allow_null = FALSE,
+  arg = caller_arg(fileext),
+  error_call = caller_env()
+) {
   if (allow_null && is.null(fileext)) {
     return(invisible(NULL))
   }
 
   arg_match(
     fileext,
-    values = keys_d2[["fileext"]],
+    values = d2r::keys_d2[["fileext"]],
     error_arg = arg,
     error_call = error_call
   )
@@ -445,10 +460,12 @@ match_d2_fileext <- function(fileext,
 
 #' Match D2 theme to supported options
 #' @noRd
-match_d2_theme <- function(theme,
-                           allow_null = TRUE,
-                           arg = caller_arg(theme),
-                           error_call = caller_env()) {
+match_d2_theme <- function(
+  theme,
+  allow_null = TRUE,
+  arg = caller_arg(theme),
+  error_call = caller_env()
+) {
   if (allow_null && is.null(theme)) {
     return(invisible(NULL))
   }
@@ -457,7 +474,7 @@ match_d2_theme <- function(theme,
 
   if (is.character(theme) && is.na(theme_int)) {
     theme_nm <- tolower(theme)
-    theme_values <- names(themes_d2)
+    theme_values <- names(d2r::themes_d2)
 
     if (!all(theme_nm %in% tolower(theme_values))) {
       theme <- arg_match(
@@ -468,13 +485,13 @@ match_d2_theme <- function(theme,
       )
     }
 
-    return(keys_d2[["theme"]][theme_nm])
+    return(d2r::keys_d2[["theme"]][theme_nm])
   }
 
-  if (is.integer(theme_int) && !any(themes_d2 == theme_int)) {
+  if (is.integer(theme_int) && !any(d2r::themes_d2 == theme_int)) {
     cli_abort(
       "{.arg {arg}} must be a valid theme name
-      or one of the following whole numbers: {themes_d2}, not {theme}",
+      or one of the following whole numbers: {d2r::themes_d2}, not {theme}",
       call = error_call
     )
   }
