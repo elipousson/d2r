@@ -8,6 +8,7 @@
 ## New features
 
 * Add `preview` argument to `d2_render()`.
+* Add vector of `shape` values to `keys_d2`.
 
 # d2r 0.1.0
 
