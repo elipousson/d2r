@@ -18,10 +18,12 @@ d2_read <- function(file) {
 #'   Defaults to `getOption("d2r.tidy", TRUE)`.
 #' @rdname d2_read
 #' @export
-d2_write <- function(data,
-                     file = NULL,
-                     fileext = "d2",
-                     tidy = getOption("d2r.tidy", TRUE)) {
+d2_write <- function(
+  data,
+  file = NULL,
+  fileext = "d2",
+  tidy = getOption("d2r.tidy", TRUE)
+) {
   if (all(is_d2_file(data, fileext))) {
     data <- d2_read(data)
   }
@@ -89,6 +91,19 @@ d2_layout <- function(layout = NULL) {
   out <- exec_d2(c("layout", layout), std_out = std_bullets)
 }
 
+#' - [d2_validate()]: List the installed version of D2
+#'
+#' @rdname d2-utils
+#' @export
+d2_validate <- function() {
+  v <- system2("d2", "version", stdout = TRUE)
+  cli_alert_info(
+    paste0("v", v, " {.url https://d2lang.com/releases/", v, "}")
+  )
+
+  invisible(v)
+}
+
 #' Does file use a d2 extension?
 #'
 #' [is_d2_file()] tests for a `".d2"` file extension. A d2 file extension is not
@@ -111,12 +126,13 @@ is_d2_file <- function(file, fileext = "d2") {
 
 #' @noRd
 check_d2_file <- function(
-    file,
-    allow_null = FALSE,
-    allow_empty = FALSE,
-    require_d2 = TRUE,
-    arg = caller_arg(file),
-    call = caller_env()) {
+  file,
+  allow_null = FALSE,
+  allow_empty = FALSE,
+  require_d2 = TRUE,
+  arg = caller_arg(file),
+  call = caller_env()
+) {
   check_character(file, allow_null = allow_null, allow_empty = allow_empty)
 
   allow_null <- allow_null && is.null(file)
@@ -133,6 +149,10 @@ check_d2_file <- function(
   )
 }
 
+#' Allowed parameters
+#'
+#' @param h,host listening address when used with watch (default "localhost")
+#' @param p,port port listening address when used with watch (default "0")
 #' @noRd
 exec_d2 <- function(args = list(), std_out = std_alert_info) {
   std_out <- std_out %||% TRUE
