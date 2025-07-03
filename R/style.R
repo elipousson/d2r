@@ -23,10 +23,11 @@
 #'
 #' @export
 d2_style <- function(
-    ...,
-    inline = FALSE,
-    level = c("shape", "connector", "root"),
-    after = "\n") {
+  ...,
+  inline = FALSE,
+  level = c("shape", "connector", "root"),
+  after = "\n"
+) {
   params <- list2(...)
 
   if (is_empty(params)) {
@@ -71,15 +72,16 @@ d2_style <- function(
 
 #' @noRd
 match_d2_style <- function(
-    params,
-    level = c("shape", "connector", "root"),
-    error_call = caller_env()) {
+  params,
+  level = c("shape", "connector", "root"),
+  error_call = caller_env()
+) {
   obj_check_vector_named(params, error_call = error_call)
 
   nm <- sub("_", "-", names(params))
   params <- set_names(params, nm)
 
-  values <- keys_d2[["style"]]
+  values <- d2r::keys_d2[["style"]]
   level <- arg_match(level, error_call = error_call)
 
   if (level == "shape") {
@@ -91,8 +93,12 @@ match_d2_style <- function(
     )
   } else if (level == "root") {
     values <- c(
-      "fill", "fill-pattern", "stroke",
-      "stroke-width", "stroke-dash", "double-border"
+      "fill",
+      "fill-pattern",
+      "stroke",
+      "stroke-width",
+      "stroke-dash",
+      "double-border"
     )
   }
 
