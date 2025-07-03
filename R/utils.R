@@ -1,21 +1,20 @@
-.onLoad <- function(lib, pkg) {
-  utils::data(
-    list = c("themes_d2", "keys_d2"),
-    package = pkg,
-    envir = parent.env(environment())
-  )
+#' Convert a list to character elements
+#' @noRd
+list_as_chr <- function(x, use_names = TRUE) {
+  vapply(x, as.character, character(1), USE.NAMES = use_names)
 }
 
 #' Check if object is a vector with only named elements
 #' @noRd
 obj_check_vector_named <- function(
-    x,
-    ...,
-    nm = NULL,
-    allowed_any = FALSE,
-    allowed_only = !allowed_any,
-    arg = caller_arg(x),
-    call = caller_env()) {
+  x,
+  ...,
+  nm = NULL,
+  allowed_any = FALSE,
+  allowed_only = !allowed_any,
+  arg = caller_arg(x),
+  call = caller_env()
+) {
   vctrs::obj_check_vector(x, arg = arg, call = call)
 
   supplied_nm <- !is.null(nm)

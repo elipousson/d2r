@@ -6,7 +6,7 @@
 #' target arrowhead.
 #'
 #' @param label Short arrowhead label.
-#' @param shape See `keys_d2[["arrowhead"]]` for allowed shape values.
+#' @param shape See `d2r::keys_d2[["arrowhead"]]` for allowed shape values.
 #' @param filled Must be `NULL` or logical. Ignored if shape is `"arrow"` or a
 #'   crow's foot shape (any shape starting with `"cf-"`).
 #' @param type Type of arrowhead: "target" or "source".
@@ -38,21 +38,23 @@
 #' )
 #'
 #' @export
-d2_arrowhead <- function(shape = "triangle",
-                         type = c("target", "source"),
-                         label = NULL,
-                         filled = NULL) {
+d2_arrowhead <- function(
+  shape = "triangle",
+  type = c("target", "source"),
+  label = NULL,
+  filled = NULL
+) {
   type <- arg_match(type)
 
   type <- paste0(type, "-arrowhead")
 
   shape <- arg_match(
     shape,
-    values = keys_d2[["arrowhead"]]
+    values = d2r::keys_d2[["arrowhead"]]
   )
 
   if (!is.null(filled)) {
-    if (shape %in% keys_d2[["arrowhead"]][c(1, 3, 4)]) {
+    if (shape %in% d2r::keys_d2[["arrowhead"]][c(1, 3, 4)]) {
       check_logical(filled)
       filled <- tolower(filled)
     } else {
@@ -104,10 +106,7 @@ d2_arrowhead <- function(shape = "triangle",
 #' @inheritParams d2_container
 #' @importFrom utils modifyList
 #' @export
-d2_arrowheads <- function(...,
-                          target = list(),
-                          source = list(),
-                          id = NULL) {
+d2_arrowheads <- function(..., target = list(), source = list(), id = NULL) {
   params <- list2(...)
 
   if (!is_empty(params)) {

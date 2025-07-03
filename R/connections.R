@@ -1,11 +1,12 @@
 #'
 #' @noRd
 as_d2_vector <- function(
-    x,
-    allow_null = TRUE,
-    na = "drop",
-    arg = caller_arg(x),
-    call = caller_env()) {
+  x,
+  allow_null = TRUE,
+  na = "drop",
+  arg = caller_arg(x),
+  call = caller_env()
+) {
   if (is.list(x)) {
     list_check_all_size(x, 1, arg = arg, call = call)
     x <- vapply(x, as.character, character(1))
@@ -63,14 +64,16 @@ as_d2_vector <- function(
 
 #' Build connections between two vectors or using one named vector or list
 #' @noRd
-d2_connections <- function(from = NULL,
-                           to = NULL,
-                           connector = NULL,
-                           label = NULL,
-                           na = "drop",
-                           recycle = FALSE,
-                           .size = NULL,
-                           call = caller_env()) {
+d2_connections <- function(
+  from = NULL,
+  to = NULL,
+  connector = NULL,
+  label = NULL,
+  na = "drop",
+  recycle = FALSE,
+  .size = NULL,
+  call = caller_env()
+) {
   from <- as_d2_vector(from, na = na)
 
   if (is_named(from)) {

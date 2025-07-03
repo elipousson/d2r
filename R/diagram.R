@@ -9,10 +9,10 @@
 #' @param ... Additional elements for diagram included after initial lines.
 #' @param connector Default to `NULL` which uses `"->"` to connect the name of
 #'   any shape to the value of any shape. Must be vector of:
-#'   `r knitr::combine_words( keys_d2[["connector"]])`. Vector is recycled to
+#'   `r knitr::combine_words(d2r::keys_d2[["connector"]])`. Vector is recycled to
 #'   match length of named shapes.
 #' @param direction Optional direction for diagram. Must be one of:
-#' `r knitr::combine_words(keys_d2[["direction"]])`.
+#' `r knitr::combine_words(d2r::keys_d2[["direction"]])`.
 #' @param import File name or names to append as an import to the top of the
 #'   diagram. If named, the standard import method using the name of the import
 #'   as the name of the imported element. If import is unnamed, the partial
@@ -29,19 +29,26 @@
 #'
 #' @export
 d2_diagram <- function(
-    lines = NULL,
-    ...,
-    connector = NULL,
-    id = NULL,
-    direction = getOption("d2r.direction"),
-    import = NULL,
-    collapse = NULL) {
+  lines = NULL,
+  ...,
+  connector = NULL,
+  id = NULL,
+  direction = getOption("d2r.direction"),
+  import = NULL,
+  collapse = NULL
+) {
+  # params <- list2(...)
+  # if (is.null(lines) && !is_empty(params) && has_length(params, 1)) {
+  #   lines <- list_as_chr(params[[1]])
+  #   params <- NULL
+  # }
+
   if (!is.null(lines)) {
     diagram <- build_d2_diagram(lines, connector)
   }
 
   if (!is.null(id)) {
-    diagram <- d2_container(id = id, diagram)
+    diagram <- d2_container(diagram, id = id)
   }
 
   diagram <- c(diagram, ...)
@@ -91,18 +98,19 @@ d2_diagram <- function(
 #' @export
 #' @returns A string or character vector with D2 diagram code.
 d2_container <- function(
-    ...,
-    lines = NULL,
-    id = NULL,
-    class = NULL,
-    name = NULL,
-    label = NULL,
-    shape = NULL,
-    width = NULL,
-    height = NULL,
-    icon = NULL,
-    style = d2_style(),
-    collapse = NULL) {
+  ...,
+  lines = NULL,
+  id = NULL,
+  class = NULL,
+  name = NULL,
+  label = NULL,
+  shape = NULL,
+  width = NULL,
+  height = NULL,
+  icon = NULL,
+  style = d2_style(),
+  collapse = NULL
+) {
   vec_recycle_common(
     name,
     class,
@@ -149,27 +157,23 @@ d2_container <- function(
 }
 
 #' @noRd
-d2_id <- function(id,
-                  label = "",
-                  indent = "",
-                  sep = ":",
-                  after = " ",
-                  ...) {
+d2_id <- function(id, label = "", indent = "", sep = ":", after = " ", ...) {
   paste0(indent, id, sep, label, after, ...)
 }
 
 #' @noRd
 d2_key_val <- function(
-    val = NULL,
-    key = arg,
-    indent = "    ",
-    sep = ": ",
-    after = "\n",
-    allow_empty = TRUE,
-    allow_null = TRUE,
-    allow_na = TRUE,
-    arg = caller_arg(val),
-    call = caller_env()) {
+  val = NULL,
+  key = arg,
+  indent = "    ",
+  sep = ": ",
+  after = "\n",
+  allow_empty = TRUE,
+  allow_null = TRUE,
+  allow_na = TRUE,
+  arg = caller_arg(val),
+  call = caller_env()
+) {
   if (allow_null && is.null(val)) {
     return(val)
   }
@@ -191,9 +195,10 @@ d2_key_val <- function(
 #' @noRd
 #' @importFrom fs is_absolute_path
 assign_diagram_import <- function(
-    diagram,
-    import = NULL,
-    call = caller_env()) {
+  diagram,
+  import = NULL,
+  call = caller_env()
+) {
   if (is.null(import)) {
     return(diagram)
   }
@@ -237,12 +242,13 @@ assign_diagram_import <- function(
 #' Assign a direction for a diagram
 #' @noRd
 assign_diagram_direction <- function(
-    diagram,
-    direction = NULL) {
+  diagram,
+  direction = NULL
+) {
   if (is.null(direction)) {
     return(diagram)
   }
-  direction <- arg_match(direction, keys_d2[["direction"]])
+  direction <- arg_match(direction, d2r::keys_d2[["direction"]])
 
   c(
     paste0("direction: ", direction),
@@ -253,9 +259,7 @@ assign_diagram_direction <- function(
 
 #' Connect shapes with connectors
 #' @noRd
-build_d2_diagram <- function(shapes,
-                             connector = NULL,
-                             call = caller_env()) {
+build_d2_diagram <- function(shapes, connector = NULL, call = caller_env()) {
   connector <- connector %||% "->"
 
   obj_check_vector(shapes, call = call)
@@ -296,16 +300,18 @@ build_d2_diagram <- function(shapes,
 #'
 #' @noRd
 match_d2_connector <- function(
-    connector = NULL,
-    multiple = TRUE,
-    size = NULL,
-    default = "->",
-    error_arg = caller_arg(connector),
-    error_call = caller_env()) {
+  connector = NULL,
+  multiple = TRUE,
+  size = NULL,
+  default = "->",
+  error_arg = caller_arg(connector),
+  error_call = caller_env()
+) {
   connector <- connector %||% default
 
   connector <- arg_match(
-    connector, keys_d2[["connector"]],
+    connector,
+    d2r::keys_d2[["connector"]],
     multiple = multiple,
     error_arg = error_arg,
     error_call = error_call
@@ -324,9 +330,7 @@ match_d2_connector <- function(
 #' Assign connector labels
 #'
 #' @noRd
-assign_connector_labels <- function(diagram,
-                                    connector = NULL,
-                                    label = NULL) {
+assign_connector_labels <- function(diagram, connector = NULL, label = NULL) {
   label <- label %||% names(connector)
 
   if (is.null(label)) {
@@ -339,7 +343,9 @@ assign_connector_labels <- function(diagram,
     diagram,
     i = i,
     value = paste0(
-      vec_slice(diagram, i), ": ", vec_slice(label, i)
+      vec_slice(diagram, i),
+      ": ",
+      vec_slice(label, i)
     )
   )
 }
@@ -347,8 +353,7 @@ assign_connector_labels <- function(diagram,
 #' Assign D2 shape and object attributes
 #'
 #' @noRd
-assign_d2_attributes <- function(diagram,
-                                 obj) {
+assign_d2_attributes <- function(diagram, obj) {
   obj_attr <- d2_shape_attributes(obj)
   missing_i <- vec_detect_missing(obj_attr)
 
