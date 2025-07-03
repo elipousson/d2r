@@ -15,6 +15,6 @@ keys_d2
 }
 \description{
 An incomplete list of standard D2 syntax keywords for reference and internal
-validation. Named elements include: layout, theme, fileext, connector, arrowhead, direction, style, visibility, constraints, and grid.
+validation. Named elements include: layout, theme, fileext, connector, arrowhead, direction, style, visibility, and grid.
 }
 \keyword{datasets}

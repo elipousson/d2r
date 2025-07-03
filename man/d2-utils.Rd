@@ -6,6 +6,7 @@
 \alias{d2_version}
 \alias{d2_themes}
 \alias{d2_layout}
+\alias{d2_validate}
 \title{Basic D2 utilities}
 \usage{
 d2_which()
@@ -15,6 +16,8 @@ d2_version()
 d2_themes()
 
 d2_layout(layout = NULL)
+
+d2_validate()
 }
 \arguments{
 \item{layout}{Layout name. If supplied, display long help for a particular layout engine,
@@ -37,5 +40,9 @@ Basic D2 utilities
 
 \itemize{
 \item \code{\link[=d2_layout]{d2_layout()}}: Lists available layout engine options with short help
+}
+
+\itemize{
+\item \code{\link[=d2_validate]{d2_validate()}}: List the installed version of D2
 }
 }

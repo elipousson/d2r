@@ -16,7 +16,7 @@ d2_arrowhead(
 d2_arrowheads(..., target = list(), source = list(), id = NULL)
 }
 \arguments{
-\item{shape}{See \code{keys_d2[["arrowhead"]]} for allowed shape values.}
+\item{shape}{See \code{d2r::keys_d2[["arrowhead"]]} for allowed shape values.}
 
 \item{type}{Type of arrowhead: "target" or "source".}
 

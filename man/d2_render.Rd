@@ -38,7 +38,8 @@ d2_include(
 
 \item{...}{Additional input flags. Optional character vector.}
 
-\item{fileext}{One of: svg, pdf, png, gif, pptx. Ignored if \code{output} is supplied.}
+\item{fileext}{One of: svg, pdf, png, gif, pptx. Ignored if \code{output} is
+supplied.}
 
 \item{layout}{Layout. One of: elk, dagre, taga}
 
@@ -67,6 +68,11 @@ provide distinct fonts for regular, italic, and bold text.}
 
 \item{preview}{If \code{TRUE}, preview the rendered plot using \code{\link[=d2_ggplot]{d2_ggplot()}}.
 Reqires the magick package.}
+
+\item{call}{The execution environment of a currently
+running function, e.g. \code{caller_env()}. The function will be
+mentioned in error messages as the source of the error. See the
+\code{call} argument of \code{\link[rlang:abort]{abort()}} for more information.}
 
 \item{auto_pdf}{Whether to use PDF images automatically when the output
 format is LaTeX. If \code{TRUE}, then e.g. \file{foo/bar.png} will be
