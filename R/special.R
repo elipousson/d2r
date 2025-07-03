@@ -1,6 +1,9 @@
 #' @noRd
 d2_tempid <- function(..., size = 8, replace = TRUE) {
-  paste0(c(..., sample(c(LETTERS, letters), size, replace = replace)), collapse = "")
+  paste0(
+    c(..., sample(c(LETTERS, letters), size, replace = replace)),
+    collapse = ""
+  )
 }
 
 #' Create a D2 SQL Table Diagram
@@ -15,7 +18,7 @@ d2_tempid <- function(..., size = 8, replace = TRUE) {
 #'   [vctrs::vec_ptype_full] or [base::typeof]. If `types` is a named character
 #'   vector, the column names of `data` are ignored the names of types used
 #'   instead.
-#' @param visibility One or more of: `r keys_d2[["visibility"]]`. Length is
+#' @param visibility One or more of: `r d2r::keys_d2[["visibility"]]`. Length is
 #'   recycled to match the number of columns in `data`.
 #' @param id Diagram container id passed to [d2_container()]. Defaults to
 #'   `NULL`. If `NULL`, `id` is set to `rlang::caller_arg(data)` if `data` is
@@ -36,12 +39,13 @@ d2_tempid <- function(..., size = 8, replace = TRUE) {
 #'   shape.
 #' @export
 d2_sql_table <- function(
-    data = NULL,
-    visibility = NULL,
-    col_types = vec_ptype_abbr,
-    id = NULL,
-    label = id,
-    ...) {
+  data = NULL,
+  visibility = NULL,
+  col_types = vec_ptype_abbr,
+  id = NULL,
+  label = id,
+  ...
+) {
   if (is_function(col_types)) {
     col_types <- vapply(data, col_types, character(1))
   }
@@ -71,7 +75,7 @@ d2_sql_table <- function(
 
   visibility <- arg_match(
     visibility,
-    values = keys_d2[["visibility"]],
+    values = d2r::keys_d2[["visibility"]],
     multiple = TRUE
   )
 
