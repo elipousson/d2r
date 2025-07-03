@@ -20,8 +20,9 @@ themes_d2 <- set_names(
 usethis::use_data(themes_d2, overwrite = TRUE)
 
 keys_d2 <- list(
-
   # https://d2lang.com/tour/layouts#layout-engines
+  # TODO: Consider how to implement layout specific functionality
+  # https://d2lang.com/tour/layouts#layout-specific-functionality
   "layout" = c("elk", "dagre", "taga"),
 
   # https://d2lang.com/tour/themes
@@ -68,6 +69,35 @@ keys_d2 <- list(
   "grid" = c(
     "grid-rows",
     "grid-columns"
+  ),
+
+  # https://d2lang.com/tour/shapes/
+  "shape" = c(
+    "c4-person",
+    "callout",
+    "circle",
+    "cloud",
+    "cylinder",
+    "diamond",
+    "document",
+    "hexagon",
+    "oval",
+    "package",
+    "page",
+    "parallelogram",
+    "person",
+    "queue",
+    "rectangle",
+    "square",
+    "step",
+    "stored_data",
+
+    # special shapes
+    "class",
+    "image",
+    "sequence_diagram",
+    "sql_table",
+    "text"
   )
 )
 
