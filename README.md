@@ -53,7 +53,7 @@ version:
 
 ``` r
 d2_version()
-#> ℹ v0.6.7 <https://d2lang.com/releases/0.6.7>
+#> ℹ v0.7.0 <https://d2lang.com/releases/0.7.0>
 ```
 
 If you have D2 installed with Homebrew, you may have trouble rendering a
@@ -80,8 +80,10 @@ fig_path <- \(x) {
   paste0(knitr::opts_chunk$get("fig.path"), x)
 }
 
-options("d2r.pad" = 20)
-options("d2r.direction" = "right")
+options(
+  d2r.pad = 20,
+  d2r.direction = "right"
+)
 ```
 
 Here is a basic example using `d2_diagram()` to create a basic diagram
