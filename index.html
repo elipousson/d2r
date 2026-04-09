@@ -76,7 +76,7 @@
 <p>If d2 is installed and available on your PATH, you can check the version:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/d2-utils.html">d2_version</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ℹ v0.7.0 &lt;https://d2lang.com/releases/0.7.0&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; ℹ v0.7.1 &lt;https://d2lang.com/releases/0.7.1&gt;</span></span></code></pre></div>
 <p>If you have D2 installed with Homebrew, you may have trouble rendering a diagram within a RMarkdown. If so, you may need to set an environmental variable that points to the D2 PATH.</p>
 <p>Use <code><a href="reference/d2-utils.html">d2_which()</a></code> to locate the path for the installed version of D2:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -111,7 +111,7 @@
 <span>  <span class="va">simple_diagram</span>,</span>
 <span>  <span class="fu">fig_path</span><span class="op">(</span><span class="st">"simple_diagram.png"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-simple_diagram.png" width="100%"></p>
+<p><img src="reference/figures/README-simple_diagram.png" alt="" width="100%"></p>
 <p>You can pass both named and unnamed lines of text with D2 syntax, specify connectors (used with the named elements), and set the overall direction for the diagram:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">connected_diagram</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/d2_diagram.html">d2_diagram</a></span><span class="op">(</span></span>
@@ -129,7 +129,7 @@
 <span>  <span class="va">connected_diagram</span>,</span>
 <span>  <span class="fu">fig_path</span><span class="op">(</span><span class="st">"connected_diagram.png"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-connected_diagram.png" width="100%"></p>
+<p><img src="reference/figures/README-connected_diagram.png" alt="" width="100%"></p>
 <p>The entity-relationship diagrams and table schema can be represented using the SQL table style diagrams with <code><a href="reference/d2_sql_table.html">d2_sql_table()</a></code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/d2_sql_table.html">d2_sql_table</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, id <span class="op">=</span> <span class="st">"mtcars"</span><span class="op">)</span></span>
@@ -138,8 +138,9 @@
 <span><span class="co">#&gt; [1] "mtcars: {\n       label: mtcars\n     shape: sql_table\n        mpg: dbl\n\n    cyl: dbl\n\n    disp: dbl\n\n    hp: dbl\n\n}"</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/d2_render.html">d2_include</a></span><span class="op">(</span><span class="va">mtcars_tbl</span>, output <span class="op">=</span> <span class="fu">fig_path</span><span class="op">(</span><span class="st">"mtcars.png"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-mtcars.png" width="100%"></p>
-<p>You can use <code><a href="reference/d2_render.html">d2_render()</a></code> to convert a D2 file into a PNG, SVG, PDF, or GIF file. <code><a href="reference/d2_render.html">d2_include()</a></code> is a wrapper for <code><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html" class="external-link">knitr::include_graphics()</a></code> that helps to include a diagram in a Quarto or R Markdown document:</p>
+<p><img src="reference/figures/README-mtcars.png" alt="" width="100%"></p>
+<p>You can use <code><a href="reference/d2_render.html">d2_render()</a></code> to convert a D2 file into a PNG, SVG, PDF, TXT, or GIF file.</p>
+<p><code><a href="reference/d2_render.html">d2_include()</a></code> is a wrapper for <code><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html" class="external-link">knitr::include_graphics()</a></code> that helps to include a diagram in a Quarto or R Markdown document:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diagram</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/d2_diagram.html">d2_diagram</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
@@ -164,7 +165,7 @@
 <span>  sketch <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  theme <span class="op">=</span> <span class="st">"Terminal"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-include-example.png" width="100%"></p>
+<p><img src="reference/figures/README-include-example.png" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="related-packages-and-projects">Related packages and projects<a class="anchor" aria-label="anchor" href="#related-packages-and-projects"></a>
@@ -241,7 +242,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
