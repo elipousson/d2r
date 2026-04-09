@@ -125,7 +125,9 @@ mtcars_tbl
 d2_include(mtcars_tbl, output = fig_path("mtcars.png"))
 ```
 
-You can use `d2_render()` to convert a D2 file into a PNG, SVG, PDF, or GIF file. `d2_include()` is a wrapper for `knitr::include_graphics()` that helps to include a diagram in a Quarto or R Markdown document:
+You can use `d2_render()` to convert a D2 file into a PNG, SVG, PDF, TXT, or GIF file.
+
+`d2_include()` is a wrapper for `knitr::include_graphics()` that helps to include a diagram in a Quarto or R Markdown document:
 
 ```{r}
 diagram <- d2_diagram(

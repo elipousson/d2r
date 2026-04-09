@@ -53,7 +53,7 @@ version:
 
 ``` r
 d2_version()
-#> ℹ v0.7.0 <https://d2lang.com/releases/0.7.0>
+#> ℹ v0.7.1 <https://d2lang.com/releases/0.7.1>
 ```
 
 If you have D2 installed with Homebrew, you may have trouble rendering a
@@ -105,7 +105,7 @@ d2_include(
 )
 ```
 
-<img src="man/figures/README-simple_diagram.png" width="100%" />
+<img src="man/figures/README-simple_diagram.png" alt="" width="100%" />
 
 You can pass both named and unnamed lines of text with D2 syntax,
 specify connectors (used with the named elements), and set the overall
@@ -131,7 +131,7 @@ d2_include(
 )
 ```
 
-<img src="man/figures/README-connected_diagram.png" width="100%" />
+<img src="man/figures/README-connected_diagram.png" alt="" width="100%" />
 
 The entity-relationship diagrams and table schema can be represented
 using the SQL table style diagrams with `d2_sql_table()`:
@@ -145,11 +145,13 @@ mtcars_tbl
 d2_include(mtcars_tbl, output = fig_path("mtcars.png"))
 ```
 
-<img src="man/figures/README-mtcars.png" width="100%" />
+<img src="man/figures/README-mtcars.png" alt="" width="100%" />
 
-You can use `d2_render()` to convert a D2 file into a PNG, SVG, PDF, or
-GIF file. `d2_include()` is a wrapper for `knitr::include_graphics()`
-that helps to include a diagram in a Quarto or R Markdown document:
+You can use `d2_render()` to convert a D2 file into a PNG, SVG, PDF,
+TXT, or GIF file.
+
+`d2_include()` is a wrapper for `knitr::include_graphics()` that helps
+to include a diagram in a Quarto or R Markdown document:
 
 ``` r
 diagram <- d2_diagram(
@@ -177,7 +179,7 @@ d2_include(
 )
 ```
 
-<img src="man/figures/README-include-example.png" width="100%" />
+<img src="man/figures/README-include-example.png" alt="" width="100%" />
 
 ## Related packages and projects
 
