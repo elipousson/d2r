@@ -38,7 +38,7 @@ d2_include(
 
 \item{...}{Additional input flags. Optional character vector.}
 
-\item{fileext}{One of: svg, pdf, png, gif, pptx. Ignored if \code{output} is
+\item{fileext}{One of: svg, pdf, png, gif, pptx, txt. Ignored if \code{output} is
 supplied.}
 
 \item{layout}{Layout. One of: elk, dagre, taga}

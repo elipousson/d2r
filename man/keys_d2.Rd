@@ -5,7 +5,7 @@
 \alias{keys_d2}
 \title{D2 Syntax Keywords}
 \format{
-A length 10 named list.
+A length 11 named list.
 }
 \source{
 \url{https://d2lang.com/}
@@ -15,6 +15,7 @@ keys_d2
 }
 \description{
 An incomplete list of standard D2 syntax keywords for reference and internal
-validation. Named elements include: layout, theme, fileext, connector, arrowhead, direction, style, visibility, and grid.
+validation. Last updated 2026-04-08 for compatibility with version v0.7.1.
+Named elements include: layout, theme, fileext, connector, arrowhead, direction, style, visibility, and grid.
 }
 \keyword{datasets}

@@ -29,7 +29,14 @@ keys_d2 <- list(
   "theme" = set_names(themes_d2, tolower(names(themes_d2))),
 
   # https://d2lang.com/tour/exports
-  "fileext" = c("svg", "pdf", "png", "gif", "pptx"),
+  "fileext" = c(
+    "svg",
+    "pdf",
+    "png",
+    "gif",
+    "pptx",
+    "txt" # v0.7.1
+  ),
 
   # https://d2lang.com/tour/connections
   "connector" = c("--", "->", "<-", "<->"),
