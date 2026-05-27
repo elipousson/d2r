@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# d2r
+# d2r <a href="https://elipousson.github.io/d2r/"><img src="man/figures/logo.png" align="right" height="124" alt="d2r website" /></a>
 
 <!-- badges: start -->
 
