@@ -97,6 +97,7 @@ A character string with D2 diagram code using the "sql_type" shape.
 ## Examples
 
 ``` r
+
 d2_sql_table(mtcars[, 1:4])
 #> [1] "\"mtcars[, 1:4]\": {\n       label: \"mtcars[, 1:4]\"\n     shape: sql_table\n        mpg: dbl\n\n    cyl: dbl\n\n    disp: dbl\n\n    hp: dbl\n\n}"
 

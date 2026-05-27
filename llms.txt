@@ -23,6 +23,7 @@ engine to support d2 code blocks within a RMarkdown or Quarto document.
 You can install the development version of d2r like so:
 
 ``` r
+
 # pak::pkg_install("elipousson/d2r")
 ```
 
@@ -31,6 +32,7 @@ You can install the development version of d2r like so:
 ### Setup
 
 ``` r
+
 library(d2r)
 ```
 
@@ -38,6 +40,7 @@ If d2 is installed and available on your PATH, you can check the
 version:
 
 ``` r
+
 d2_version()
 #> ℹ v0.7.1 <https://d2lang.com/releases/0.7.1>
 ```
@@ -51,6 +54,7 @@ Use
 to locate the path for the installed version of D2:
 
 ``` r
+
 d2_which()
 #> [1] "/opt/homebrew/bin/d2"
 ```
@@ -63,6 +67,7 @@ commands.
 ## Basic usage
 
 ``` r
+
 # Helper function for file paths
 fig_path <- \(x) {
   paste0(knitr::opts_chunk$get("fig.path"), x)
@@ -80,6 +85,7 @@ to create a basic diagram with two connected shapes based on a named
 character vector:
 
 ``` r
+
 simple_diagram <- d2_diagram(
   c("R" = "D2")
 )
@@ -89,6 +95,7 @@ simple_diagram
 ```
 
 ``` r
+
 d2_include(
   simple_diagram,
   fig_path("simple_diagram.png")
@@ -102,6 +109,7 @@ specify connectors (used with the named elements), and set the overall
 direction for the diagram:
 
 ``` r
+
 connected_diagram <- d2_diagram(
   c("R" = "D2", "D2" = "R"),
   "R.shape: oval",
@@ -115,6 +123,7 @@ connected_diagram
 ```
 
 ``` r
+
 d2_include(
   connected_diagram,
   fig_path("connected_diagram.png")
@@ -128,6 +137,7 @@ using the SQL table style diagrams with
 [`d2_sql_table()`](https://elipousson.github.io/d2r/reference/d2_sql_table.md):
 
 ``` r
+
 mtcars_tbl <- d2_sql_table(mtcars[, 1:4], id = "mtcars")
 
 mtcars_tbl
@@ -148,6 +158,7 @@ is a wrapper for
 that helps to include a diagram in a Quarto or R Markdown document:
 
 ``` r
+
 diagram <- d2_diagram(
   c(
     "Beginning" = "Middle",
